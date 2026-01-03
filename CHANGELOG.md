@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.1.3] - 2026-01-03
+
+### Added
+
+- Configurable JSONL storage filename via `storage.jsonl_file` config option
+- New `storage` configuration section in defaults
+- Environment variable `TF_STORAGE__JSONL_FILE` for runtime override
+- Examples section in README with links to demo programs
+- MCP Server section in README documenting all tools and resources
+- `tf config` CLI commands documentation in README
+
+### Changed
+
+- Default JSONL filename changed from `issues.jsonl` to `tasks.jsonl`
+- Configuration section in README updated to reflect YAML format and anyway_config usage
+- Gemspec now uses `TrakFlow::VERSION` instead of hardcoded version string
+
+### Fixed
+
+- Architecture diagram in README now shows correct `config.yml` filename
+
 ## [0.1.2] - 2026-01-02
 
 ### Added
