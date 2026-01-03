@@ -1,0 +1,93 @@
+# TrakFlow Bundled Defaults
+#
+# This file is the SINGLE SOURCE OF TRUTH for TrakFlow configuration schema.
+# All attributes must be declared here (even if nil) to be recognized.
+# It is bundled with the gem and loaded automatically at lowest priority.
+#
+# Loading priority (lowest to highest):
+# 1. This file (bundled defaults)
+# 2. XDG user config (~/.config/trak_flow/trak_flow.yml)
+# 3. Project config (./.trak_flow/config.yml)
+# 4. Environment variables (TF_*)
+# 5. Programmatic (TrakFlow.configure block)
+#
+# Structure:
+# - defaults: Base values for all environments
+
+# =============================================================================
+# Shared Defaults (base for all environments)
+# =============================================================================
+defaults:
+  # ---------------------------------------------------------------------------
+  # Output Configuration
+  # Access: TrakFlow.config.output.json, TrakFlow.config.output.stealth
+  # ---------------------------------------------------------------------------
+  output:
+    json: false
+    stealth: false
+
+  # ---------------------------------------------------------------------------
+  # Daemon Configuration
+  # Access: TrakFlow.config.daemon.disabled, TrakFlow.config.daemon.auto_start
+  # ---------------------------------------------------------------------------
+  daemon:
+    disabled: false
+    auto_start: true
+    flush_debounce: 5
+
+  # ---------------------------------------------------------------------------
+  # Sync Configuration
+  # Access: TrakFlow.config.sync.auto_flush, TrakFlow.config.sync.auto_import, etc.
+  # ---------------------------------------------------------------------------
+  sync:
+    auto_flush: true
+    auto_import: true
+    push: true
+
+  # ---------------------------------------------------------------------------
+  # Create Configuration
+  # Access: TrakFlow.config.create.require_description
+  # ---------------------------------------------------------------------------
+  create:
+    require_description: false
+
+  # ---------------------------------------------------------------------------
+  # Validation Configuration
+  # Access: TrakFlow.config.validation.on_create, TrakFlow.config.validation.on_sync
+  # ---------------------------------------------------------------------------
+  validation:
+    on_create: none
+    on_sync: none
+
+  # ---------------------------------------------------------------------------
+  # ID Generation Configuration
+  # Access: TrakFlow.config.id.max_collision_prob, etc.
+  # ---------------------------------------------------------------------------
+  id:
+    max_collision_prob: 0.25
+    min_hash_length: 4
+    max_hash_length: 8
+
+  # ---------------------------------------------------------------------------
+  # Import Configuration
+  # Access: TrakFlow.config.import.orphan_handling, TrakFlow.config.import.error_policy
+  # ---------------------------------------------------------------------------
+  import:
+    orphan_handling: allow
+    error_policy: warn
+
+  # ---------------------------------------------------------------------------
+  # Export Configuration
+  # Access: TrakFlow.config.export.error_policy, etc.
+  # ---------------------------------------------------------------------------
+  export:
+    error_policy: strict
+    retry_attempts: 3
+    retry_backoff_ms: 100
+    skip_encoding_errors: false
+
+  # ---------------------------------------------------------------------------
+  # Actor Configuration
+  # Access: TrakFlow.config.actor
+  # ---------------------------------------------------------------------------
+  actor: ~
