@@ -26,7 +26,7 @@ module TrakFlow
 
   TRAK_FLOW_DIR = ".trak_flow"
   DATABASE_FILE = "trak_flow.db"
-  JSONL_FILE = "issues.jsonl"
+  JSONL_FILE = "tasks.jsonl"  # Default, can be overridden via config.storage.jsonl_file
   CONFIG_FILE = "config.yml"
 
   STATUSES = %w[open in_progress blocked deferred closed tombstone pinned].freeze
@@ -49,7 +49,8 @@ module TrakFlow
     end
 
     def jsonl_path
-      File.join(trak_flow_dir, JSONL_FILE)
+      jsonl_file = config.storage.jsonl_file rescue JSONL_FILE
+      File.join(trak_flow_dir, jsonl_file)
     end
 
     def config_path

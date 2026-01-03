@@ -1,0 +1,53 @@
+/* Hero section grid layout */
+.md-content .grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Responsive: stack on mobile */
+@media screen and (max-width: 768px) {
+  .md-content .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Hero image styling */
+.md-content .grid img {
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Definition list in hero - more compact */
+.md-content .grid dl {
+  margin: 1rem 0;
+}
+
+.md-content .grid dt {
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+.md-content .grid dd {
+  margin-left: 1.5rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+/* Button spacing */
+.md-content .md-button {
+  margin-right: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* Make icons in definition list slightly larger */
+.md-content .grid dt .twemoji,
+.md-content .grid dt .emojione,
+.md-content .grid dt svg {
+  height: 1.2rem;
+  width: 1.2rem;
+  vertical-align: text-bottom;
+  margin-right: 0.3rem;
+}

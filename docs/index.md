@@ -1,50 +1,61 @@
 # TrakFlow
 
-A distributed task tracking system for AI agents with a DAG-based workflow engine.
+<div class="grid" markdown>
 
-TrakFlow helps AI agents manage complex, multi-step work pipelines without losing track of what they need to do. It uses a dependency-aware task graph to codify plans and workflows, enabling agents to handle lengthy operations reliably.
+<div markdown>
 
-## Key Features
-
-<div class="grid cards" markdown>
-
--   :material-git:{ .lg .middle } **Git-Backed Persistence**
-
-    ---
-
-    Tasks stored as JSONL files, versioned alongside your code. No external database required.
-
--   :material-identifier:{ .lg .middle } **Hash-Based IDs**
-
-    ---
-
-    Prevents merge conflicts when multiple agents work on the same project simultaneously.
-
--   :material-database:{ .lg .middle } **SQLite Cache**
-
-    ---
-
-    Fast indexed queries with millisecond response times for local operations.
-
--   :material-graph:{ .lg .middle } **Dependency Graph**
-
-    ---
-
-    Track blocking relationships and find tasks ready for work automatically.
-
--   :material-robot:{ .lg .middle } **MCP Server**
-
-    ---
-
-    Expose tasks to AI agents via the Model Context Protocol (MCP) standard.
-
--   :material-workflow:{ .lg .middle } **Plans & Workflows**
-
-    ---
-
-    Create reusable workflow blueprints and execute them as persistent or ephemeral workflows.
+![TrakFlow](assets/trak_flow.jpg){ width="100%" }
 
 </div>
+
+<div markdown>
+
+**A distributed task tracking system for Robots with a DAG-based workflow engine.**
+
+TrakFlow helps Robots (what some might call AI agents) manage complex, multi-step work pipelines without losing track of what they need to do.
+
+| | |
+|---|---|
+| :material-git: Git-Backed | :material-database: SQLite Cache |
+| :material-identifier: Hash-Based IDs | :material-graph: Dependency Graph |
+| :material-robot: MCP Server | :material-workflow: Plans & Workflows |
+
+</div>
+
+</div>
+
+<p align="center" markdown>
+[:material-download: Install](getting-started/installation.md){ .md-button .md-button--primary }
+[:material-rocket-launch: Quick Start](getting-started/quick-start.md){ .md-button }
+</p>
+
+---
+
+## Features
+
+### Git-Backed Persistence
+
+Tasks are stored as human-readable JSONL files that live alongside your code. No external database server required. Every change is versioned through Git, giving you full history, branching, and collaboration capabilities. Roll back mistakes, review task history in PRs, and keep your project management data where it belongs—in your repository.
+
+### Hash-Based IDs
+
+TrakFlow generates unique task IDs using content hashing, eliminating merge conflicts when multiple AI agents or team members create tasks simultaneously. No central ID server needed. IDs are deterministic and portable, making it safe to work offline and sync later without coordination overhead.
+
+### SQLite Cache
+
+While JSONL provides persistence, a local SQLite database delivers blazing-fast queries with millisecond response times. Full-text search, indexed lookups by status, priority, labels, and dependencies—all optimized for the rapid-fire queries that AI agents generate. The cache rebuilds automatically from JSONL on each session.
+
+### Dependency Graph
+
+Model complex task relationships with a directed acyclic graph (DAG). Define blocking dependencies, related tasks, and parent-child hierarchies. TrakFlow automatically detects cycles, identifies tasks ready for work (no open blockers), and visualizes your workflow as a graph. Perfect for multi-step pipelines where order matters.
+
+### MCP Server
+
+Expose your task data to AI agents through the Model Context Protocol (MCP) standard. Compatible with Claude Desktop, VS Code extensions, and any MCP-enabled application. Supports both STDIO transport for local development and HTTP/SSE for remote access. Agents can create, query, and update tasks programmatically.
+
+### Plans & Workflows
+
+Define reusable workflow blueprints (Plans) and instantiate them as running Workflows. Perfect for repeatable processes like deployments, code reviews, or onboarding checklists. Choose persistent Workflows for audit trails or ephemeral Workflows for temporary operations that auto-clean after completion.
 
 ## Quick Example
 

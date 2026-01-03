@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-## [0.0.2] - 2026-01-02
+## [0.1.2] - 2026-01-02
 
 ### Added
 
@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - MCP Server documentation (overview, tools, resources, integration guide)
   - API Reference (Ruby library, Task model, Database API)
 
-## [0.0.1] - 2026-01-02
+## [0.1.1] - 2026-01-01
 
 ### Added
 
@@ -43,3 +43,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `admin` - administrative commands (cleanup, compact, graph, analyze)
 - Dependency graph with cycle detection
 - Comprehensive test suite (276 tests, 84% coverage)
+
+## [0.1.0] - 2026-01-01
+- Initial concept and design

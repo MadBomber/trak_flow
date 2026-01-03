@@ -87,6 +87,13 @@ defaults:
     skip_encoding_errors: false
 
   # ---------------------------------------------------------------------------
+  # Storage Configuration
+  # Access: TrakFlow.config.storage.jsonl_file
+  # ---------------------------------------------------------------------------
+  storage:
+    jsonl_file: tasks.jsonl
+
+  # ---------------------------------------------------------------------------
   # Database Configuration
   # Access: TrakFlow.config.database.path
   # ---------------------------------------------------------------------------

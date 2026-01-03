@@ -1,21 +1,81 @@
 # TrakFlow
 
-under active development so watch out for frequent changes.
+<table>
+  <tr>
+    <td width="40%">
+      <img src="docs/assets/trak_flow.jpg" alt="TrakFlow" width="100%">
+    </td>
+    <td width="60%" valign="top">
+      <strong>A distributed task tracking system for Robots with a DAG-based workflow engine.</strong>
+      <br><br>
+      TrakFlow helps Robots (what some might call AI agents) manage complex, multi-step work pipelines without losing track of what they need to do. It uses a dependency-aware task graph to codify plans and workflows, enabling Robots to handle lengthy operations reliably. Tasks are stored as git-tracked JSONL files with a SQLite cache for fast queries. The MCP server exposes your tasks to any Model Context Protocol compatible application.
+      <br><br>
+      <table>
+        <tr>
+          <td>:file_folder: Git-Backed</td>
+          <td>:zap: SQLite Cache</td>
+        </tr>
+        <tr>
+          <td>:id: Hash-Based IDs</td>
+          <td>:link: Dependency Graph</td>
+        </tr>
+        <tr>
+          <td>:robot: MCP Server</td>
+          <td>:arrows_counterclockwise: Plans & Workflows</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
 
-A distributed task tracking system for Robots (agents), implemented in Ruby.
+<p align="center">
+  <a href="https://madbomber.github.io/trak_flow/getting-started/installation/">Install</a> •
+  <a href="https://madbomber.github.io/trak_flow/getting-started/quick-start/">Quick Start</a> •
+  <a href="https://madbomber.github.io/trak_flow/">Documentation</a> •
+  <a href="#examples">Examples</a>
+</p>
 
-It uses a task dependency-aware graph to codify plans/workflows, allowing robots to handle complex or lengthy work pipelines without losing track of what they are instructed to do. At its core, TrakFlow is a **DAG-based workflow engine**.
+<p align="center">
+  <em>Under active development - watch out for frequent changes.</em>
+</p>
+
+---
 
 ## Features
 
-- **Git-backed persistence**: Issues stored as JSONL files, versioned with your code
-- **Hash-based IDs**: Prevents merge conflicts when multiple agents work simultaneously
-- **SQLite local cache**: Fast indexed queries with millisecond response times
-- **Dependency graph**: Track blocking relationships between tasks
-- **Ready-work detection**: Find tasks with no open blockers
-- **Hierarchical tasks**: Epics, tasks, and sub-tasks
-- **Plans and Workflows**: Reusable workflow blueprints with persistent or ephemeral execution
-- **Labels and state**: Flexible categorization and dimension-based state tracking
+### Git-Backed Persistence
+
+Tasks are stored as human-readable JSONL files that live alongside your code. No external database server required. Every change is versioned through Git, giving you full history, branching, and collaboration capabilities. Roll back mistakes, review task history in PRs, and keep your project management data where it belongs—in your repository. The JSONL format is simple enough to edit by hand if needed, and plays nicely with standard Unix tools like `grep`, `jq`, and `awk`.
+
+### Hash-Based IDs
+
+TrakFlow generates unique task IDs using content hashing, eliminating merge conflicts when multiple Robots or team members create tasks simultaneously. No central ID server needed. IDs are deterministic and portable, making it safe to work offline and sync later without coordination overhead. Multiple Robots can work on the same project in parallel branches and merge their work cleanly.
+
+### SQLite Cache
+
+While JSONL provides persistence, a local SQLite database delivers blazing-fast queries with millisecond response times. Full-text search across task titles and descriptions, indexed lookups by status, priority, labels, and dependencies—all optimized for the rapid-fire queries that Robots generate during complex reasoning chains. The cache rebuilds automatically from JSONL on each session, so you never have to worry about sync issues.
+
+### Dependency Graph
+
+Model complex task relationships with a directed acyclic graph (DAG). Define blocking dependencies between tasks, mark related tasks for reference, and create parent-child hierarchies for organizing epics and subtasks. TrakFlow automatically detects cycles before they're created, identifies tasks that are ready for work (no open blockers), and can visualize your entire workflow as a graph. Perfect for multi-step pipelines where execution order matters.
+
+### MCP Server
+
+Expose your task data to Robots through the Model Context Protocol (MCP) standard. Compatible with Claude Desktop, VS Code extensions, and any MCP-enabled application. The server supports both STDIO transport for local development and IDE integrations, and HTTP/SSE transport for remote access and multi-client scenarios. Robots can create tasks, query by any field, update status, manage dependencies, and traverse the task graph—all through a clean tool-based API.
+
+### Plans & Workflows
+
+Define reusable workflow blueprints (Plans) and instantiate them as running Workflows. Perfect for repeatable processes like deployments, code reviews, release checklists, or onboarding procedures. Each Plan contains a sequence of task templates that get copied into a new Workflow when started. Choose persistent Workflows for audit trails and historical records, or ephemeral Workflows for temporary operations that auto-clean after completion to reduce clutter.
+
+## Examples
+
+The [`examples/`](examples/) directory contains working demos:
+
+| Example | Description |
+|---------|-------------|
+| [`basic_usage.rb`](examples/basic_usage.rb) | Ruby library usage - creating tasks, managing dependencies, and querying the database |
+| [`mcp/stdio_demo.rb`](examples/mcp/stdio_demo.rb) | MCP server with STDIO transport for local development and IDE integrations |
+| [`mcp/http_demo.rb`](examples/mcp/http_demo.rb) | MCP server with HTTP/SSE transport for remote access and web applications |
 
 ## Installation
 
@@ -32,10 +92,17 @@ gem install trak_flow
 ```
 
 ## Quick Start
+### Using the CLI utility `tf`
+#### Basic Commands
 
 ```bash
 # Initialize TrakFlow in your project
 tf init
+
+# Displays config file with defaults which you can copy
+tf config defaults > ~/.config/trak_flow/trak_flow.yml
+# ... edit your configuration
+tf config show # will show your configuration
 
 # Create a task
 tf create "Implement user authentication" -t feature -p 1
@@ -56,7 +123,7 @@ tf dep tree tf-a1b2
 tf close tf-a1b2 -r "Implemented in PR #123"
 ```
 
-### Working with Plans and Workflows
+#### Working with Plans and Workflows
 
 Plans are reusable workflow blueprints. Workflows are running instances of Plans.
 
@@ -117,12 +184,12 @@ tf create TITLE [options]
   --ephemeral            # Create as ephemeral (one-shot)
 ```
 
-### Issue Types
+### Task Types
 
 - `bug` - Bug fixes
 - `feature` - New features
 - `task` - General tasks
-- `epic` - Parent issues containing sub-tasks
+- `epic` - Parent task containing sub-tasks
 - `chore` - Maintenance tasks
 
 ### Priority Levels
@@ -160,9 +227,9 @@ Dependency types:
 ### Label Commands
 
 ```bash
-tf label add ID LABEL     # Add label to issue
+tf label add ID LABEL     # Add label to task
 tf label remove ID LABEL  # Remove label
-tf label list ID          # List labels for issue
+tf label list ID          # List labels for task
 tf label list-all         # List all labels
 ```
 
@@ -194,25 +261,152 @@ tf workflow summarize ID  # Summarize and close Workflow
 tf workflow gc            # Garbage collect old ephemeral Workflows
 ```
 
+### Config Commands
+
+```bash
+tf config                 # Show bundled default configuration
+tf config show            # Show current active configuration
+tf config defaults        # Show bundled default configuration
+tf config reset           # Reset configuration to defaults
+tf config reset -g        # Reset global (XDG) config
+tf config reset -f        # Force overwrite existing config
+tf config get KEY         # Get a config value (e.g., 'mcp.port')
+tf config set KEY VALUE   # Set a config value
+tf config path            # Show configuration file paths
+```
+
+Configuration sources (lowest to highest priority):
+1. Bundled defaults (ships with gem)
+2. XDG user config (`~/.config/trak_flow/trak_flow.yml`)
+3. Project config (`.trak_flow/config.yml`)
+4. Environment variables (`TF_*`)
+
 ### Admin Commands
 
 ```bash
-tf admin cleanup          # Clean up old closed issues
+tf admin cleanup          # Clean up old closed tasks
 tf admin compact          # Compact the database
 tf admin graph            # Generate dependency graph (DOT/SVG)
-tf admin analyze          # Analyze the issue graph
+tf admin analyze          # Analyze the task graph
 ```
 
 ## Configuration
 
-Configuration is stored in `.trak_flow/config.json`:
+TrakFlow uses the [anyway_config](https://github.com/palkan/anyway_config) gem for configuration management. Configuration is stored in YAML format.
+
+### Configuration Files
+
+| Priority | Location | Purpose |
+|----------|----------|---------|
+| 1 (lowest) | Bundled defaults | Ships with gem |
+| 2 | `~/.config/trak_flow/trak_flow.yml` | User-wide settings |
+| 3 | `.trak_flow/config.yml` | Project-specific settings |
+| 4 (highest) | Environment variables | Runtime overrides |
+
+### Example Configuration
+
+```yaml
+# ~/.config/trak_flow/trak_flow.yml
+defaults:
+  output:
+    json: false
+    stealth: false
+  daemon:
+    disabled: false
+    auto_start: true
+    flush_debounce: 5
+  sync:
+    auto_flush: true
+    auto_import: true
+    push: true
+  create:
+    require_description: false
+  storage:
+    jsonl_file: tasks.jsonl
+  database:
+    path: ~/.config/trak_flow/tf.db
+  mcp:
+    port: 3333
+  actor: robot
+```
+
+### Environment Variables
+
+Environment variables use the `TF_` prefix and double underscores for nested keys:
+
+| Variable | Configuration Key | Example |
+|----------|-------------------|---------|
+| `TF_ACTOR` | `actor` | `TF_ACTOR=robot` |
+| `TF_OUTPUT__JSON` | `output.json` | `TF_OUTPUT__JSON=true` |
+| `TF_OUTPUT__STEALTH` | `output.stealth` | `TF_OUTPUT__STEALTH=true` |
+| `TF_DAEMON__DISABLED` | `daemon.disabled` | `TF_DAEMON__DISABLED=true` |
+| `TF_DAEMON__AUTO_START` | `daemon.auto_start` | `TF_DAEMON__AUTO_START=false` |
+| `TF_SYNC__AUTO_FLUSH` | `sync.auto_flush` | `TF_SYNC__AUTO_FLUSH=false` |
+| `TF_SYNC__PUSH` | `sync.push` | `TF_SYNC__PUSH=false` |
+| `TF_STORAGE__JSONL_FILE` | `storage.jsonl_file` | `TF_STORAGE__JSONL_FILE=issues.jsonl` |
+| `TF_DATABASE__PATH` | `database.path` | `TF_DATABASE__PATH=/tmp/tf.db` |
+| `TF_MCP__PORT` | `mcp.port` | `TF_MCP__PORT=4000` |
+
+## MCP Server
+
+TrakFlow includes a Model Context Protocol (MCP) server that exposes task management to AI agents. Compatible with Claude Desktop, VS Code extensions, and any MCP-enabled application.
+
+### Starting the Server
+
+```bash
+# STDIO transport (for local development and IDE integrations)
+tf_mcp
+
+# HTTP/SSE transport (for remote access and web applications)
+tf_mcp --http --port 3333
+```
+
+### Available Tools
+
+| Tool | Description |
+|------|-------------|
+| `task_create` | Create a new task |
+| `task_list` | List tasks with filters |
+| `task_show` | Get task details |
+| `task_update` | Update task properties |
+| `task_start` | Mark task as in progress |
+| `task_close` | Complete a task |
+| `task_block` | Mark task as blocked |
+| `task_reopen` | Reopen a closed task |
+| `plan_create` | Create a Plan blueprint |
+| `plan_add_step` | Add a step to a Plan |
+| `plan_start` | Create persistent Workflow from Plan |
+| `plan_execute` | Create ephemeral Workflow from Plan |
+| `dep_add` | Add dependency between tasks |
+| `dep_remove` | Remove a dependency |
+| `ready_tasks` | Find tasks with no blockers |
+| `label_add` | Add label to a task |
+| `label_remove` | Remove label from a task |
+| `label_list` | List labels on a task |
+
+### Available Resources
+
+| URI | Description |
+|-----|-------------|
+| `trak_flow://tasks` | All tasks in the project |
+| `trak_flow://ready` | Tasks ready to work on (no blockers) |
+| `trak_flow://dependencies` | Dependency graph between tasks |
+| `trak_flow://plans` | Plan blueprints and their Workflows |
+| `trak_flow://labels` | All labels used in the project |
+| `trak_flow://summary` | Project status overview |
+
+### Claude Desktop Integration
+
+Add to your Claude Desktop configuration (`~/Library/Application Support/Claude/claude_desktop_config.json`):
 
 ```json
 {
-  "stealth": false,
-  "no_push": false,
-  "actor": "username",
-  "import.orphan_handling": "allow"
+  "mcpServers": {
+    "trak_flow": {
+      "command": "tf_mcp",
+      "args": []
+    }
+  }
 }
 ```
 
@@ -221,8 +415,8 @@ Configuration is stored in `.trak_flow/config.json`:
 ```
 .trak_flow/
 ├── trak_flow.db   # SQLite database (gitignored)
-├── issues.jsonl   # Git-tracked source of truth
-├── config.json    # Project configuration
+├── tasks.jsonl    # Git-tracked source of truth
+├── config.yml     # Project configuration (YAML)
 └── .gitignore
 ```
 
@@ -277,7 +471,7 @@ bundle install
 bundle exec rake test
 
 # Run the CLI locally
-bundle exec exe/tf
+bundle exec bin/tf
 ```
 
 ## License
