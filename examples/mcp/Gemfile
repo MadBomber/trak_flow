@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+gem "ruby_llm"
+gem "ruby_llm-mcp"
+
+# TrakFlow dependencies (needed when spawning tf_mcp via STDIO)
+gem "trak_flow", path: "../.."

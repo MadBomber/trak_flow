@@ -101,6 +101,7 @@ module TrakFlow
 end
 
 # Load subcommand classes first (main_commands references them)
+require_relative "cli/config_commands"
 require_relative "cli/dep_commands"
 require_relative "cli/label_commands"
 require_relative "cli/plan_commands"

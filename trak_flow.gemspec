@@ -25,11 +25,12 @@ Gem::Specification.new do |spec|
     end
   end
   spec.bindir        = 'bin'
-  spec.executables   = ['tf']
+  spec.executables   = ['tf', 'tf_mcp']
   spec.require_paths = ['lib']
 
   spec.add_dependency 'anyway_config', '~> 2.0'
   spec.add_dependency 'debug_me'
+  spec.add_dependency 'fast-mcp'
   spec.add_dependency 'oj', '~> 3.16'
   spec.add_dependency 'pastel', '~> 0.8'
   spec.add_dependency 'sequel', '~> 5.0'
@@ -37,6 +38,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'thor', '~> 1.3'
   spec.add_dependency 'tty-spinner', '~> 0.9'
   spec.add_dependency 'tty-table', '~> 0.12'
+  spec.add_dependency 'puma', '~> 6.0'
+  spec.add_dependency 'rackup', '~> 2.0'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'minitest', '~> 5.0'

@@ -323,6 +323,9 @@ module TrakFlow
     desc "admin SUBCOMMAND", "Administrative commands"
     subcommand "admin", AdminCommands
 
+    desc "config SUBCOMMAND", "Configuration management"
+    subcommand "config", ConfigCommands
+
     private
 
     def print_task_details(task, labels, deps, comments)

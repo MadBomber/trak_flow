@@ -39,7 +39,11 @@ module TrakFlowTestHelper
     trak_flow_dir = File.join(@test_dir, ".trak_flow")
     FileUtils.mkdir_p(trak_flow_dir)
 
-    db = TrakFlow::Storage::Database.new(File.join(trak_flow_dir, "trak_flow.db"))
+    # Configure database path to use test directory
+    db_path = File.join(trak_flow_dir, "trak_flow.db")
+    TrakFlow.config.database.path = db_path
+
+    db = TrakFlow::Storage::Database.new(db_path)
     db.connect
     db
   end

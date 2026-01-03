@@ -1,0 +1,81 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+
+# TrakFlow MCP Server
+# Provides Model Context Protocol interface for TrakFlow task management
+#
+# Usage:
+#   tf_mcp              # Start stdio server (default)
+#   tf_mcp --stdio      # Start stdio server
+#   tf_mcp --http       # Start HTTP server on port 3333
+#   tf_mcp --http 8080  # Start HTTP server on port 8080
+#   tf_mcp --both       # Start both stdio and HTTP on port 3333
+#   tf_mcp --both 8080  # Start both stdio and HTTP on port 8080
+#   tf_mcp --help       # Show help
+
+require_relative "../lib/trak_flow"
+require_relative "../lib/trak_flow/mcp"
+
+def parse_port(args)
+  port_index = args.index { |a| a.match?(/^\d+$/) }
+  port_index ? args[port_index].to_i : nil
+end
+
+def default_port
+  TrakFlow.config.mcp.port
+end
+
+def print_help
+  puts <<~HELP
+    TrakFlow MCP Server v#{TrakFlow::VERSION}
+
+    Usage: tf_mcp [OPTIONS]
+
+    Options:
+      --stdio          Run as stdio server (default)
+      --http [PORT]    Run as HTTP server (default port: #{default_port})
+      --both [PORT]    Run both stdio and HTTP simultaneously
+      --help, -h       Show this help message
+
+    Examples:
+      tf_mcp                    # Start stdio server
+      tf_mcp --http             # Start HTTP server on port #{default_port}
+      tf_mcp --http 8080        # Start HTTP server on port 8080
+      tf_mcp --both             # Start both transports
+
+    Configuration:
+      Default port is configured in TrakFlow config (mcp.port: #{default_port})
+
+    For Claude Code / Claude Desktop (stdio):
+      Add to your MCP settings:
+      {
+        "mcpServers": {
+          "trak_flow": {
+            "command": "tf_mcp"
+          }
+        }
+      }
+
+    For HTTP clients:
+      Connect to: http://localhost:PORT/mcp/sse
+  HELP
+end
+
+if ARGV.include?("--help") || ARGV.include?("-h")
+  print_help
+  exit 0
+end
+
+server = TrakFlow::Mcp::Server.new
+
+if ARGV.include?("--both")
+  port = parse_port(ARGV)
+  server.start_both(http_port: port)
+elsif ARGV.include?("--http")
+  port = parse_port(ARGV)
+  server.start_http(port: port)
+else
+  server.start_stdio
+end

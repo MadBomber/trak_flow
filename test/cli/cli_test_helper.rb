@@ -32,6 +32,11 @@ module CLITestHelper
     TrakFlow.instance_variable_set(:@root, nil)
     TrakFlow.instance_variable_set(:@trak_flow_dir, nil)
     TrakFlow.reset_config!
+
+    # Configure database path to use test directory
+    trak_flow_dir = File.join(@temp_dir, ".trak_flow")
+    db_path = File.join(trak_flow_dir, "trak_flow.db")
+    TrakFlow.config.database.path = db_path
   end
 
   # Clean up temporary directory

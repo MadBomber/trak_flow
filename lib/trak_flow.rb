@@ -44,7 +44,8 @@ module TrakFlow
     end
 
     def database_path
-      File.join(trak_flow_dir, DATABASE_FILE)
+      path = config.database.path
+      File.expand_path(path)
     end
 
     def jsonl_path

@@ -57,7 +57,7 @@ module TrakFlow
     end
 
     # Nested section attributes (defined as hashes, converted to ConfigSection)
-    attr_config :output, :daemon, :sync, :create, :validation, :id, :import, :export
+    attr_config :output, :daemon, :sync, :create, :validation, :id, :import, :export, :database, :mcp
 
     # Top-level scalar attributes
     attr_config :actor
@@ -94,7 +94,9 @@ module TrakFlow
       validation: config_section_with_defaults(:validation),
       id: config_section_with_defaults(:id),
       import: config_section_with_defaults(:import),
-      export: config_section_with_defaults(:export)
+      export: config_section_with_defaults(:export),
+      database: config_section_with_defaults(:database),
+      mcp: config_section_with_defaults(:mcp)
     )
 
     on_load :setup_defaults
@@ -249,6 +251,8 @@ module TrakFlow
       self.id = self.class.config_section_with_defaults(:id).call(self.id) unless self.id.is_a?(ConfigSection)
       self.import = self.class.config_section_with_defaults(:import).call(self.import) unless self.import.is_a?(ConfigSection)
       self.export = self.class.config_section_with_defaults(:export).call(self.export) unless self.export.is_a?(ConfigSection)
+      self.database = self.class.config_section_with_defaults(:database).call(self.database) unless self.database.is_a?(ConfigSection)
+      self.mcp = self.class.config_section_with_defaults(:mcp).call(self.mcp) unless self.mcp.is_a?(ConfigSection)
       self.actor ||= ENV.fetch('USER', 'unknown')
     end
   end
