@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2222,16 +2222,16 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>TASK_ID<span class="w"> </span>LABEL
 </span></code></pre></div>
 <h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">&quot;frontend&quot;</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">&quot;urgent&quot;</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">&quot;v2.0&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">"frontend"</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">"urgent"</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">"v2.0"</span>
 </span></code></pre></div>
 <h2 id="remove-label">Remove Label<a class="headerlink" href="#remove-label" title="Permanent link">&para;</a></h2>
 <p>Remove a label from a task.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>tf<span class="w"> </span>label<span class="w"> </span>remove<span class="w"> </span>TASK_ID<span class="w"> </span>LABEL
 </span></code></pre></div>
 <h3 id="examples_1">Examples<a class="headerlink" href="#examples_1" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>tf<span class="w"> </span>label<span class="w"> </span>remove<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">&quot;urgent&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>tf<span class="w"> </span>label<span class="w"> </span>remove<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">"urgent"</span>
 </span></code></pre></div>
 <h2 id="list-labels">List Labels<a class="headerlink" href="#list-labels" title="Permanent link">&para;</a></h2>
 <h3 id="labels-on-a-task">Labels on a Task<a class="headerlink" href="#labels-on-a-task" title="Permanent link">&para;</a></h3>
@@ -2309,45 +2309,45 @@
 </ol>
 <h2 id="use-cases">Use Cases<a class="headerlink" href="#use-cases" title="Permanent link">&para;</a></h2>
 <h3 id="component-tracking">Component Tracking<a class="headerlink" href="#component-tracking" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">&quot;frontend&quot;</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-def456<span class="w"> </span><span class="s2">&quot;backend&quot;</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-ghi789<span class="w"> </span><span class="s2">&quot;api&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">"frontend"</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-def456<span class="w"> </span><span class="s2">"backend"</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-ghi789<span class="w"> </span><span class="s2">"api"</span>
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
 </span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1"># Find all frontend tasks</span>
 </span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>tf<span class="w"> </span>list<span class="w"> </span>--label<span class="w"> </span>frontend
 </span></code></pre></div>
 <h3 id="sprint-planning">Sprint Planning<a class="headerlink" href="#sprint-planning" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">&quot;sprint-42&quot;</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-def456<span class="w"> </span><span class="s2">&quot;sprint-42&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">"sprint-42"</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-def456<span class="w"> </span><span class="s2">"sprint-42"</span>
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Sprint backlog</span>
 </span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>tf<span class="w"> </span>list<span class="w"> </span>--label<span class="w"> </span>sprint-42<span class="w"> </span>--status<span class="w"> </span>open
 </span></code></pre></div>
 <h3 id="release-management">Release Management<a class="headerlink" href="#release-management" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">&quot;v2.0&quot;</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-def456<span class="w"> </span><span class="s2">&quot;v2.0&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">"v2.0"</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-def456<span class="w"> </span><span class="s2">"v2.0"</span>
 </span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># What&#39;s in v2.0?</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># What's in v2.0?</span>
 </span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>tf<span class="w"> </span>list<span class="w"> </span>--label<span class="w"> </span>v2.0
 </span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># What&#39;s not done for v2.0?</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># What's not done for v2.0?</span>
 </span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>tf<span class="w"> </span>list<span class="w"> </span>--label<span class="w"> </span>v2.0<span class="w"> </span>--status<span class="w"> </span>open
 </span></code></pre></div>
 <h3 id="priority-escalation">Priority Escalation<a class="headerlink" href="#priority-escalation" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Mark as urgent</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">&quot;urgent&quot;</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">"urgent"</span>
 </span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
 </span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Find all urgent tasks</span>
 </span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>tf<span class="w"> </span>list<span class="w"> </span>--label<span class="w"> </span>urgent
 </span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
 </span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1"># De-escalate</span>
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>tf<span class="w"> </span>label<span class="w"> </span>remove<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">&quot;urgent&quot;</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>tf<span class="w"> </span>label<span class="w"> </span>remove<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">"urgent"</span>
 </span></code></pre></div>
 <h3 id="workflow-states">Workflow States<a class="headerlink" href="#workflow-states" title="Permanent link">&para;</a></h3>
 <p>Labels can track custom workflow states:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">&quot;needs-review&quot;</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">&quot;in-qa&quot;</span>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">&quot;approved&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">"needs-review"</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">"in-qa"</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">"approved"</span>
 </span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
 </span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1"># Find tasks needing review</span>
 </span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>tf<span class="w"> </span>list<span class="w"> </span>--label<span class="w"> </span>needs-review
@@ -2356,22 +2356,22 @@
 <h3 id="add-label-to-multiple-tasks">Add Label to Multiple Tasks<a class="headerlink" href="#add-label-to-multiple-tasks" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Using shell loop</span>
 </span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="k">for</span><span class="w"> </span>id<span class="w"> </span><span class="k">in</span><span class="w"> </span>tf-abc123<span class="w"> </span>tf-def456<span class="w"> </span>tf-ghi789<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span><span class="nv">$id</span><span class="w"> </span><span class="s2">&quot;sprint-42&quot;</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span><span class="nv">$id</span><span class="w"> </span><span class="s2">"sprint-42"</span>
 </span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="k">done</span>
 </span></code></pre></div>
 <h3 id="remove-label-from-all-tasks">Remove Label from All Tasks<a class="headerlink" href="#remove-label-from-all-tasks" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Find all tasks with label and remove</span>
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>tf<span class="w"> </span>list<span class="w"> </span>--label<span class="w"> </span>old-label<span class="w"> </span>--json<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.[].id&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">  </span>xargs<span class="w"> </span>-I<span class="w"> </span><span class="o">{}</span><span class="w"> </span>tf<span class="w"> </span>label<span class="w"> </span>remove<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="s2">&quot;old-label&quot;</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'.[].id'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">  </span>xargs<span class="w"> </span>-I<span class="w"> </span><span class="o">{}</span><span class="w"> </span>tf<span class="w"> </span>label<span class="w"> </span>remove<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="s2">"old-label"</span>
 </span></code></pre></div>
 <h3 id="rename-a-label">Rename a Label<a class="headerlink" href="#rename-a-label" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Remove old, add new</span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>tf<span class="w"> </span>list<span class="w"> </span>--label<span class="w"> </span>old-name<span class="w"> </span>--json<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.[].id&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'.[].id'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>id<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">    </span>tf<span class="w"> </span>label<span class="w"> </span>remove<span class="w"> </span><span class="nv">$id</span><span class="w"> </span><span class="s2">&quot;old-name&quot;</span>
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span><span class="nv">$id</span><span class="w"> </span><span class="s2">&quot;new-name&quot;</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">    </span>tf<span class="w"> </span>label<span class="w"> </span>remove<span class="w"> </span><span class="nv">$id</span><span class="w"> </span><span class="s2">"old-name"</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span><span class="nv">$id</span><span class="w"> </span><span class="s2">"new-name"</span>
 </span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">  </span><span class="k">done</span>
 </span></code></pre></div>
 <h2 id="labels-vs-other-features">Labels vs Other Features<a class="headerlink" href="#labels-vs-other-features" title="Permanent link">&para;</a></h2>
@@ -2509,7 +2509,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.path", "navigation.indexes", "navigation.top", "toc.follow", "search.suggest", "search.highlight", "search.share", "header.autohide", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips", "content.action.edit", "content.action.view"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.0.1"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

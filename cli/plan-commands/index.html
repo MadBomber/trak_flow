@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2508,9 +2508,9 @@
 </tbody>
 </table>
 <h4 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h4>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>tf<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="s2">&quot;Deploy to Production&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>tf<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="s2">"Deploy to Production"</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>tf<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="s2">&quot;Release Checklist&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;Standard release process&quot;</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>tf<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="s2">"Release Checklist"</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">"Standard release process"</span>
 </span></code></pre></div>
 <h3 id="add-step-to-plan">Add Step to Plan<a class="headerlink" href="#add-step-to-plan" title="Permanent link">&para;</a></h3>
 <p>Add a task definition to a Plan.</p>
@@ -2544,11 +2544,11 @@
 </tbody>
 </table>
 <h4 id="examples_1">Examples<a class="headerlink" href="#examples_1" title="Permanent link">&para;</a></h4>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">&quot;Run test suite&quot;</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">&quot;Build Docker image&quot;</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">&quot;Deploy to staging&quot;</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">&quot;Run smoke tests&quot;</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">&quot;Deploy to production&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">"Run test suite"</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">"Build Docker image"</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">"Deploy to staging"</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">"Run smoke tests"</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">"Deploy to production"</span>
 </span></code></pre></div>
 <h3 id="show-plan">Show Plan<a class="headerlink" href="#show-plan" title="Permanent link">&para;</a></h3>
 <p>Display Plan details and steps.</p>
@@ -2615,7 +2615,7 @@
 <h4 id="examples_2">Examples<a class="headerlink" href="#examples_2" title="Permanent link">&para;</a></h4>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>tf<span class="w"> </span>plan<span class="w"> </span>start<span class="w"> </span>tf-plan1
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>tf<span class="w"> </span>plan<span class="w"> </span>start<span class="w"> </span>tf-plan1<span class="w"> </span>--title<span class="w"> </span><span class="s2">&quot;Deploy v1.2.0&quot;</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>tf<span class="w"> </span>plan<span class="w"> </span>start<span class="w"> </span>tf-plan1<span class="w"> </span>--title<span class="w"> </span><span class="s2">"Deploy v1.2.0"</span>
 </span></code></pre></div>
 <p>Persistent Workflows:
 - Are exported to JSONL
@@ -2645,7 +2645,7 @@
 <h4 id="examples_3">Examples<a class="headerlink" href="#examples_3" title="Permanent link">&para;</a></h4>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>tf<span class="w"> </span>plan<span class="w"> </span>execute<span class="w"> </span>tf-plan1
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>tf<span class="w"> </span>plan<span class="w"> </span>execute<span class="w"> </span>tf-plan1<span class="w"> </span>--title<span class="w"> </span><span class="s2">&quot;Quick deploy&quot;</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>tf<span class="w"> </span>plan<span class="w"> </span>execute<span class="w"> </span>tf-plan1<span class="w"> </span>--title<span class="w"> </span><span class="s2">"Quick deploy"</span>
 </span></code></pre></div>
 <p>Ephemeral Workflows:
 - NOT exported to JSONL
@@ -2731,12 +2731,12 @@
 - <code>[!]</code> - Blocked</p>
 <h3 id="summarize-workflow">Summarize Workflow<a class="headerlink" href="#summarize-workflow" title="Permanent link">&para;</a></h3>
 <p>Add a summary and close a Workflow.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>tf<span class="w"> </span>workflow<span class="w"> </span>summarize<span class="w"> </span>WORKFLOW_ID<span class="w"> </span>--summary<span class="w"> </span><span class="s2">&quot;SUMMARY&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>tf<span class="w"> </span>workflow<span class="w"> </span>summarize<span class="w"> </span>WORKFLOW_ID<span class="w"> </span>--summary<span class="w"> </span><span class="s2">"SUMMARY"</span>
 </span></code></pre></div>
 <h4 id="examples_5">Examples<a class="headerlink" href="#examples_5" title="Permanent link">&para;</a></h4>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>tf<span class="w"> </span>workflow<span class="w"> </span>summarize<span class="w"> </span>tf-wf1<span class="w"> </span>--summary<span class="w"> </span><span class="s2">&quot;Deployed v1.2.0 successfully&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>tf<span class="w"> </span>workflow<span class="w"> </span>summarize<span class="w"> </span>tf-wf1<span class="w"> </span>--summary<span class="w"> </span><span class="s2">"Deployed v1.2.0 successfully"</span>
 </span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>tf<span class="w"> </span>workflow<span class="w"> </span>summarize<span class="w"> </span>tf-wf1<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;Failed: staging smoke tests&quot;</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>tf<span class="w"> </span>workflow<span class="w"> </span>summarize<span class="w"> </span>tf-wf1<span class="w"> </span>-s<span class="w"> </span><span class="s2">"Failed: staging smoke tests"</span>
 </span></code></pre></div>
 <p>This:
 1. Adds the summary to Workflow notes
@@ -2785,15 +2785,15 @@
 </span></code></pre></div>
 <h2 id="example-complete-workflow">Example: Complete Workflow<a class="headerlink" href="#example-complete-workflow" title="Permanent link">&para;</a></h2>
 <h3 id="1-create-a-plan">1. Create a Plan<a class="headerlink" href="#1-create-a-plan" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>tf<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="s2">&quot;Code Review Process&quot;</span>
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">&quot;Check code style&quot;</span>
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">&quot;Review logic&quot;</span>
-</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">&quot;Check test coverage&quot;</span>
-</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">&quot;Security review&quot;</span>
-</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">&quot;Approve or request changes&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>tf<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="s2">"Code Review Process"</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">"Check code style"</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">"Review logic"</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">"Check test coverage"</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">"Security review"</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-plan1<span class="w"> </span><span class="s2">"Approve or request changes"</span>
 </span></code></pre></div>
 <h3 id="2-start-a-workflow">2. Start a Workflow<a class="headerlink" href="#2-start-a-workflow" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>tf<span class="w"> </span>plan<span class="w"> </span>start<span class="w"> </span>tf-plan1<span class="w"> </span>--title<span class="w"> </span><span class="s2">&quot;Review PR #42&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>tf<span class="w"> </span>plan<span class="w"> </span>start<span class="w"> </span>tf-plan1<span class="w"> </span>--title<span class="w"> </span><span class="s2">"Review PR #42"</span>
 </span></code></pre></div>
 <h3 id="3-work-through-tasks">3. Work Through Tasks<a class="headerlink" href="#3-work-through-tasks" title="Permanent link">&para;</a></h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Start first task</span>
@@ -2807,21 +2807,21 @@
 </span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="c1"># ... etc</span>
 </span></code></pre></div>
 <h3 id="4-complete-the-workflow">4. Complete the Workflow<a class="headerlink" href="#4-complete-the-workflow" title="Permanent link">&para;</a></h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>tf<span class="w"> </span>workflow<span class="w"> </span>summarize<span class="w"> </span>tf-wf1<span class="w"> </span>--summary<span class="w"> </span><span class="s2">&quot;Approved with minor suggestions&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>tf<span class="w"> </span>workflow<span class="w"> </span>summarize<span class="w"> </span>tf-wf1<span class="w"> </span>--summary<span class="w"> </span><span class="s2">"Approved with minor suggestions"</span>
 </span></code></pre></div>
 <h2 id="use-case-release-process">Use Case: Release Process<a class="headerlink" href="#use-case-release-process" title="Permanent link">&para;</a></h2>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Create the Plan once</span>
-</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>tf<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="s2">&quot;Release Process&quot;</span>
-</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-release<span class="w"> </span><span class="s2">&quot;Update version in package.json&quot;</span>
-</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-release<span class="w"> </span><span class="s2">&quot;Update CHANGELOG.md&quot;</span>
-</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-release<span class="w"> </span><span class="s2">&quot;Run full test suite&quot;</span>
-</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-release<span class="w"> </span><span class="s2">&quot;Build release artifacts&quot;</span>
-</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-release<span class="w"> </span><span class="s2">&quot;Create GitHub release&quot;</span>
-</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-release<span class="w"> </span><span class="s2">&quot;Deploy to production&quot;</span>
-</span><span id="__span-25-9"><a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-release<span class="w"> </span><span class="s2">&quot;Announce on social media&quot;</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>tf<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="s2">"Release Process"</span>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-release<span class="w"> </span><span class="s2">"Update version in package.json"</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-release<span class="w"> </span><span class="s2">"Update CHANGELOG.md"</span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-release<span class="w"> </span><span class="s2">"Run full test suite"</span>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-release<span class="w"> </span><span class="s2">"Build release artifacts"</span>
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-release<span class="w"> </span><span class="s2">"Create GitHub release"</span>
+</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-release<span class="w"> </span><span class="s2">"Deploy to production"</span>
+</span><span id="__span-25-9"><a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>tf<span class="w"> </span>plan<span class="w"> </span>add<span class="w"> </span>tf-release<span class="w"> </span><span class="s2">"Announce on social media"</span>
 </span><span id="__span-25-10"><a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>
 </span><span id="__span-25-11"><a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a><span class="c1"># For each release, start a Workflow</span>
-</span><span id="__span-25-12"><a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>tf<span class="w"> </span>plan<span class="w"> </span>start<span class="w"> </span>tf-release<span class="w"> </span>--title<span class="w"> </span><span class="s2">&quot;Release v2.0.0&quot;</span>
+</span><span id="__span-25-12"><a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>tf<span class="w"> </span>plan<span class="w"> </span>start<span class="w"> </span>tf-release<span class="w"> </span>--title<span class="w"> </span><span class="s2">"Release v2.0.0"</span>
 </span><span id="__span-25-13"><a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a>
 </span><span id="__span-25-14"><a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a><span class="c1"># Work through the checklist</span>
 </span><span id="__span-25-15"><a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a>tf<span class="w"> </span>start<span class="w"> </span>tf-task1
@@ -2829,7 +2829,7 @@
 </span><span id="__span-25-17"><a id="__codelineno-25-17" name="__codelineno-25-17" href="#__codelineno-25-17"></a><span class="c1"># ...</span>
 </span><span id="__span-25-18"><a id="__codelineno-25-18" name="__codelineno-25-18" href="#__codelineno-25-18"></a>
 </span><span id="__span-25-19"><a id="__codelineno-25-19" name="__codelineno-25-19" href="#__codelineno-25-19"></a><span class="c1"># Summarize when done</span>
-</span><span id="__span-25-20"><a id="__codelineno-25-20" name="__codelineno-25-20" href="#__codelineno-25-20"></a>tf<span class="w"> </span>workflow<span class="w"> </span>summarize<span class="w"> </span>tf-wf1<span class="w"> </span>--summary<span class="w"> </span><span class="s2">&quot;Released v2.0.0&quot;</span>
+</span><span id="__span-25-20"><a id="__codelineno-25-20" name="__codelineno-25-20" href="#__codelineno-25-20"></a>tf<span class="w"> </span>workflow<span class="w"> </span>summarize<span class="w"> </span>tf-wf1<span class="w"> </span>--summary<span class="w"> </span><span class="s2">"Released v2.0.0"</span>
 </span></code></pre></div>
 
 
@@ -2903,7 +2903,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.path", "navigation.indexes", "navigation.top", "toc.follow", "search.suggest", "search.highlight", "search.share", "header.autohide", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips", "content.action.edit", "content.action.view"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.0.1"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

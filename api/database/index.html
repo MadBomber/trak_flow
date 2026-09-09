@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2646,18 +2646,18 @@
 <h3 id="task-methods">Task Methods<a class="headerlink" href="#task-methods" title="Permanent link">&para;</a></h3>
 <h4 id="find_task">find_task<a class="headerlink" href="#find_task" title="Permanent link">&para;</a></h4>
 <p>Find a task by ID.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="o">.</span><span class="n">find_task</span><span class="p">(</span><span class="s2">&quot;tf-abc123&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="o">.</span><span class="n">find_task</span><span class="p">(</span><span class="s2">"tf-abc123"</span><span class="p">)</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># Returns: TrakFlow::Models::Task or nil</span>
 </span></code></pre></div>
 <h4 id="list_tasks">list_tasks<a class="headerlink" href="#list_tasks" title="Permanent link">&para;</a></h4>
 <p>List tasks with optional filters.</p>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">tasks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="o">.</span><span class="n">list_tasks</span><span class="p">(</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="ss">status</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="p">,</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bug&quot;</span><span class="p">,</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="ss">status</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="s2">"bug"</span><span class="p">,</span>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="ss">priority</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">]</span><span class="p">,</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="ss">assignee</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;claude&quot;</span><span class="p">,</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="ss">assignee</span><span class="p">:</span><span class="w"> </span><span class="s2">"claude"</span><span class="p">,</span>
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="ss">parent_id</span><span class="p">:</span><span class="w"> </span><span class="kp">nil</span><span class="p">,</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="ss">label</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;frontend&quot;</span><span class="p">,</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="ss">label</span><span class="p">:</span><span class="w"> </span><span class="s2">"frontend"</span><span class="p">,</span>
 </span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="ss">include_closed</span><span class="p">:</span><span class="w"> </span><span class="kp">false</span><span class="p">,</span>
 </span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="ss">include_ephemeral</span><span class="p">:</span><span class="w"> </span><span class="kp">false</span><span class="p">,</span>
 </span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">  </span><span class="ss">limit</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
@@ -2738,14 +2738,14 @@
 </span></code></pre></div>
 <h4 id="delete_task">delete_task<a class="headerlink" href="#delete_task" title="Permanent link">&para;</a></h4>
 <p>Delete a task.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">db</span><span class="o">.</span><span class="n">delete_task</span><span class="p">(</span><span class="s2">&quot;tf-abc123&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">db</span><span class="o">.</span><span class="n">delete_task</span><span class="p">(</span><span class="s2">"tf-abc123"</span><span class="p">)</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># Returns: true</span>
 </span></code></pre></div>
 <h3 id="ready-tasks">Ready Tasks<a class="headerlink" href="#ready-tasks" title="Permanent link">&para;</a></h3>
 <h4 id="find_ready_tasks">find_ready_tasks<a class="headerlink" href="#find_ready_tasks" title="Permanent link">&para;</a></h4>
 <p>Find tasks with no open blocking dependencies.</p>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">tasks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="o">.</span><span class="n">find_ready_tasks</span><span class="p">(</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bug&quot;</span><span class="p">,</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="s2">"bug"</span><span class="p">,</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="ss">priority</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">]</span><span class="p">,</span>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="ss">limit</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span>
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">)</span>
@@ -2753,7 +2753,7 @@
 </span></code></pre></div>
 <h4 id="is_ready">is_ready?<a class="headerlink" href="#is_ready" title="Permanent link">&para;</a></h4>
 <p>Check if a task is ready.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">db</span><span class="o">.</span><span class="n">is_ready?</span><span class="p">(</span><span class="s2">&quot;tf-abc123&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">db</span><span class="o">.</span><span class="n">is_ready?</span><span class="p">(</span><span class="s2">"tf-abc123"</span><span class="p">)</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># Returns: Boolean</span>
 </span></code></pre></div>
 <h3 id="plan-workflow-methods">Plan &amp; Workflow Methods<a class="headerlink" href="#plan-workflow-methods" title="Permanent link">&para;</a></h3>
@@ -2764,7 +2764,7 @@
 </span></code></pre></div>
 <h4 id="find_workflows">find_workflows<a class="headerlink" href="#find_workflows" title="Permanent link">&para;</a></h4>
 <p>Find Workflows, optionally filtered by source Plan.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">workflows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="o">.</span><span class="n">find_workflows</span><span class="p">(</span><span class="ss">plan_id</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tf-plan1&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">workflows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="o">.</span><span class="n">find_workflows</span><span class="p">(</span><span class="ss">plan_id</span><span class="p">:</span><span class="w"> </span><span class="s2">"tf-plan1"</span><span class="p">)</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># Returns: Array&lt;TrakFlow::Models::Task&gt; where workflow? == true</span>
 </span></code></pre></div>
 <h4 id="find_ephemeral_workflows">find_ephemeral_workflows<a class="headerlink" href="#find_ephemeral_workflows" title="Permanent link">&para;</a></h4>
@@ -2774,30 +2774,30 @@
 </span></code></pre></div>
 <h4 id="mark_as_plan">mark_as_plan<a class="headerlink" href="#mark_as_plan" title="Permanent link">&para;</a></h4>
 <p>Convert a task to a Plan.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">db</span><span class="o">.</span><span class="n">mark_as_plan</span><span class="p">(</span><span class="s2">&quot;tf-abc123&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">db</span><span class="o">.</span><span class="n">mark_as_plan</span><span class="p">(</span><span class="s2">"tf-abc123"</span><span class="p">)</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c1"># Returns: TrakFlow::Models::Task</span>
 </span></code></pre></div>
 <h3 id="dependency-methods">Dependency Methods<a class="headerlink" href="#dependency-methods" title="Permanent link">&para;</a></h3>
 <h4 id="add_dependency">add_dependency<a class="headerlink" href="#add_dependency" title="Permanent link">&para;</a></h4>
 <p>Add a dependency between tasks.</p>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">db</span><span class="o">.</span><span class="n">add_dependency</span><span class="p">(</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="ss">source_id</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tf-design&quot;</span><span class="p">,</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="ss">target_id</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tf-implement&quot;</span><span class="p">,</span>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;blocks&quot;</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="ss">source_id</span><span class="p">:</span><span class="w"> </span><span class="s2">"tf-design"</span><span class="p">,</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="ss">target_id</span><span class="p">:</span><span class="w"> </span><span class="s2">"tf-implement"</span><span class="p">,</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="s2">"blocks"</span>
 </span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="p">)</span>
 </span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="c1"># Returns: TrakFlow::Models::Dependency</span>
 </span></code></pre></div>
 <h4 id="remove_dependency">remove_dependency<a class="headerlink" href="#remove_dependency" title="Permanent link">&para;</a></h4>
 <p>Remove a dependency.</p>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">db</span><span class="o">.</span><span class="n">remove_dependency</span><span class="p">(</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="ss">source_id</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tf-design&quot;</span><span class="p">,</span>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="ss">target_id</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tf-implement&quot;</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="ss">source_id</span><span class="p">:</span><span class="w"> </span><span class="s2">"tf-design"</span><span class="p">,</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="ss">target_id</span><span class="p">:</span><span class="w"> </span><span class="s2">"tf-implement"</span>
 </span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="p">)</span>
 </span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1"># Returns: true</span>
 </span></code></pre></div>
 <h4 id="dependencies_for">dependencies_for<a class="headerlink" href="#dependencies_for" title="Permanent link">&para;</a></h4>
 <p>Get dependencies for a task.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">deps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="o">.</span><span class="n">dependencies_for</span><span class="p">(</span><span class="s2">&quot;tf-abc123&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">deps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="o">.</span><span class="n">dependencies_for</span><span class="p">(</span><span class="s2">"tf-abc123"</span><span class="p">)</span>
 </span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1"># Returns: {</span>
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="c1">#   blocked_by: Array&lt;Dependency&gt;,</span>
 </span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1">#   blocks: Array&lt;Dependency&gt;,</span>
@@ -2811,49 +2811,49 @@
 </span></code></pre></div>
 <h4 id="would_create_cycle">would_create_cycle?<a class="headerlink" href="#would_create_cycle" title="Permanent link">&para;</a></h4>
 <p>Check if adding a dependency would create a cycle.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">db</span><span class="o">.</span><span class="n">would_create_cycle?</span><span class="p">(</span><span class="s2">&quot;tf-a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tf-b&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">db</span><span class="o">.</span><span class="n">would_create_cycle?</span><span class="p">(</span><span class="s2">"tf-a"</span><span class="p">,</span><span class="w"> </span><span class="s2">"tf-b"</span><span class="p">)</span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="c1"># Returns: Boolean</span>
 </span></code></pre></div>
 <h3 id="label-methods">Label Methods<a class="headerlink" href="#label-methods" title="Permanent link">&para;</a></h3>
 <h4 id="add_label">add_label<a class="headerlink" href="#add_label" title="Permanent link">&para;</a></h4>
 <p>Add a label to a task.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">db</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="s2">&quot;tf-abc123&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;frontend&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">db</span><span class="o">.</span><span class="n">add_label</span><span class="p">(</span><span class="s2">"tf-abc123"</span><span class="p">,</span><span class="w"> </span><span class="s2">"frontend"</span><span class="p">)</span>
 </span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="c1"># Returns: TrakFlow::Models::Label</span>
 </span></code></pre></div>
 <h4 id="remove_label">remove_label<a class="headerlink" href="#remove_label" title="Permanent link">&para;</a></h4>
 <p>Remove a label from a task.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">db</span><span class="o">.</span><span class="n">remove_label</span><span class="p">(</span><span class="s2">&quot;tf-abc123&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;frontend&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">db</span><span class="o">.</span><span class="n">remove_label</span><span class="p">(</span><span class="s2">"tf-abc123"</span><span class="p">,</span><span class="w"> </span><span class="s2">"frontend"</span><span class="p">)</span>
 </span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="c1"># Returns: true</span>
 </span></code></pre></div>
 <h4 id="labels_for">labels_for<a class="headerlink" href="#labels_for" title="Permanent link">&para;</a></h4>
 <p>Get labels for a task.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="o">.</span><span class="n">labels_for</span><span class="p">(</span><span class="s2">&quot;tf-abc123&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="o">.</span><span class="n">labels_for</span><span class="p">(</span><span class="s2">"tf-abc123"</span><span class="p">)</span>
 </span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="c1"># Returns: Array&lt;String&gt;</span>
 </span></code></pre></div>
 <h4 id="all_labels">all_labels<a class="headerlink" href="#all_labels" title="Permanent link">&para;</a></h4>
 <p>Get all labels with task counts.</p>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="o">.</span><span class="n">all_labels</span>
 </span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="c1"># Returns: Hash&lt;String, Integer&gt;</span>
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="c1"># Example: {&quot;frontend&quot; =&gt; 5, &quot;backend&quot; =&gt; 3}</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="c1"># Example: {"frontend" =&gt; 5, "backend" =&gt; 3}</span>
 </span></code></pre></div>
 <h4 id="tasks_with_label">tasks_with_label<a class="headerlink" href="#tasks_with_label" title="Permanent link">&para;</a></h4>
 <p>Find tasks with a label.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="n">tasks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="o">.</span><span class="n">tasks_with_label</span><span class="p">(</span><span class="s2">&quot;frontend&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="n">tasks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="o">.</span><span class="n">tasks_with_label</span><span class="p">(</span><span class="s2">"frontend"</span><span class="p">)</span>
 </span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="c1"># Returns: Array&lt;TrakFlow::Models::Task&gt;</span>
 </span></code></pre></div>
 <h3 id="comment-methods">Comment Methods<a class="headerlink" href="#comment-methods" title="Permanent link">&para;</a></h3>
 <h4 id="add_comment">add_comment<a class="headerlink" href="#add_comment" title="Permanent link">&para;</a></h4>
 <p>Add a comment to a task.</p>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">db</span><span class="o">.</span><span class="n">add_comment</span><span class="p">(</span>
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">  </span><span class="ss">task_id</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tf-abc123&quot;</span><span class="p">,</span>
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">  </span><span class="ss">author</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;claude&quot;</span><span class="p">,</span>
-</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">  </span><span class="ss">content</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Working on this now&quot;</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">  </span><span class="ss">task_id</span><span class="p">:</span><span class="w"> </span><span class="s2">"tf-abc123"</span><span class="p">,</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">  </span><span class="ss">author</span><span class="p">:</span><span class="w"> </span><span class="s2">"claude"</span><span class="p">,</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">  </span><span class="ss">content</span><span class="p">:</span><span class="w"> </span><span class="s2">"Working on this now"</span>
 </span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="p">)</span>
 </span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="c1"># Returns: TrakFlow::Models::Comment</span>
 </span></code></pre></div>
 <h4 id="comments_for">comments_for<a class="headerlink" href="#comments_for" title="Permanent link">&para;</a></h4>
 <p>Get comments for a task.</p>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">comments</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="o">.</span><span class="n">comments_for</span><span class="p">(</span><span class="s2">&quot;tf-abc123&quot;</span><span class="p">)</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">comments</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="o">.</span><span class="n">comments_for</span><span class="p">(</span><span class="s2">"tf-abc123"</span><span class="p">)</span>
 </span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="c1"># Returns: Array&lt;TrakFlow::Models::Comment&gt;</span>
 </span></code></pre></div>
 <h3 id="maintenance-methods">Maintenance Methods<a class="headerlink" href="#maintenance-methods" title="Permanent link">&para;</a></h3>
@@ -2877,8 +2877,8 @@
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="n">stats</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="o">.</span><span class="n">stats</span>
 </span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="c1"># Returns: {</span>
 </span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="c1">#   total_tasks: 47,</span>
-</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1">#   by_status: {&quot;open&quot; =&gt; 12, &quot;closed&quot; =&gt; 27, ...},</span>
-</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="c1">#   by_type: {&quot;task&quot; =&gt; 30, &quot;bug&quot; =&gt; 8, ...},</span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1">#   by_status: {"open" =&gt; 12, "closed" =&gt; 27, ...},</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="c1">#   by_type: {"task" =&gt; 30, "bug" =&gt; 8, ...},</span>
 </span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="c1">#   by_priority: {0 =&gt; 2, 1 =&gt; 8, ...},</span>
 </span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="c1">#   plans: 3,</span>
 </span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a><span class="c1">#   workflows: 5,</span>
@@ -2892,9 +2892,9 @@
 </span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
 </span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="w">  </span><span class="n">title</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
 </span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="w">  </span><span class="n">description</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
-</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">&#39;open&#39;</span><span class="p">,</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">'open'</span><span class="p">,</span>
 </span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="w">  </span><span class="n">priority</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
-</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="w">  </span><span class="k">type</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">&#39;task&#39;</span><span class="p">,</span>
+</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="w">  </span><span class="k">type</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">'task'</span><span class="p">,</span>
 </span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a><span class="w">  </span><span class="n">assignee</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
 </span><span id="__span-28-9"><a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a><span class="w">  </span><span class="n">parent_id</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
 </span><span id="__span-28-10"><a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a><span class="w">  </span><span class="n">created_at</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
@@ -2919,7 +2919,7 @@
 </span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
 </span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="w">  </span><span class="n">source_id</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
 </span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="w">  </span><span class="n">target_id</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
-</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="w">  </span><span class="k">type</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">&#39;blocks&#39;</span><span class="p">,</span>
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="w">  </span><span class="k">type</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">'blocks'</span><span class="p">,</span>
 </span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="w">  </span><span class="n">created_at</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
 </span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="w">  </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">source_id</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">tasks</span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
 </span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a><span class="w">  </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">target_id</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">tasks</span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
@@ -2964,15 +2964,15 @@
 </span></code></pre></div>
 <h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
 <div class="language-ruby highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="k">begin</span>
-</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="w">  </span><span class="n">db</span><span class="o">.</span><span class="n">find_task</span><span class="p">(</span><span class="s2">&quot;invalid-id&quot;</span><span class="p">)</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="w">  </span><span class="n">db</span><span class="o">.</span><span class="n">find_task</span><span class="p">(</span><span class="s2">"invalid-id"</span><span class="p">)</span>
 </span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a><span class="k">rescue</span><span class="w"> </span><span class="no">TrakFlow</span><span class="o">::</span><span class="no">Storage</span><span class="o">::</span><span class="no">NotFoundError</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">e</span>
-</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="w">  </span><span class="nb">puts</span><span class="w"> </span><span class="s2">&quot;Not found: </span><span class="si">#{</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="w">  </span><span class="nb">puts</span><span class="w"> </span><span class="s2">"Not found: </span><span class="si">#{</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span>
 </span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a><span class="k">end</span>
 </span><span id="__span-33-6"><a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>
 </span><span id="__span-33-7"><a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a><span class="k">begin</span>
-</span><span id="__span-33-8"><a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a><span class="w">  </span><span class="n">db</span><span class="o">.</span><span class="n">add_dependency</span><span class="p">(</span><span class="s2">&quot;tf-a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;tf-a&quot;</span><span class="p">)</span>
+</span><span id="__span-33-8"><a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a><span class="w">  </span><span class="n">db</span><span class="o">.</span><span class="n">add_dependency</span><span class="p">(</span><span class="s2">"tf-a"</span><span class="p">,</span><span class="w"> </span><span class="s2">"tf-a"</span><span class="p">)</span>
 </span><span id="__span-33-9"><a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a><span class="k">rescue</span><span class="w"> </span><span class="no">TrakFlow</span><span class="o">::</span><span class="no">Storage</span><span class="o">::</span><span class="no">ValidationError</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">e</span>
-</span><span id="__span-33-10"><a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a><span class="w">  </span><span class="nb">puts</span><span class="w"> </span><span class="s2">&quot;Invalid: </span><span class="si">#{</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-33-10"><a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a><span class="w">  </span><span class="nb">puts</span><span class="w"> </span><span class="s2">"Invalid: </span><span class="si">#{</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span>
 </span><span id="__span-33-11"><a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a><span class="k">end</span>
 </span></code></pre></div>
 
@@ -3047,7 +3047,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.path", "navigation.indexes", "navigation.top", "toc.follow", "search.suggest", "search.highlight", "search.share", "header.autohide", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips", "content.action.edit", "content.action.view"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.0.1"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

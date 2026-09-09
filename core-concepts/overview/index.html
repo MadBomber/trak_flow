@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2057,9 +2057,9 @@
 </table>
 <h2 id="labels">Labels<a class="headerlink" href="#labels" title="Permanent link">&para;</a></h2>
 <p>Labels provide flexible categorization:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">&quot;frontend&quot;</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">&quot;urgent&quot;</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">&quot;v2.0&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">"frontend"</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">"urgent"</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>tf<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>tf-abc123<span class="w"> </span><span class="s2">"v2.0"</span>
 </span></code></pre></div>
 <p>Labels can represent:
 - <strong>Components</strong>: <code>frontend</code>, <code>backend</code>, <code>api</code>
@@ -2069,14 +2069,14 @@
 <h2 id="data-storage">Data Storage<a class="headerlink" href="#data-storage" title="Permanent link">&para;</a></h2>
 <p>TrakFlow uses a dual-storage approach:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>.trak_flow/
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>├── issues.jsonl    # Source of truth (git-tracked)
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>├── tasks.jsonl    # Source of truth (git-tracked)
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>├── trak_flow.db    # Fast cache (gitignored)
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>└── config.json     # Settings (git-tracked)
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>└── config.yml     # Settings (git-tracked)
 </span></code></pre></div>
 <h3 id="jsonl-format">JSONL Format<a class="headerlink" href="#jsonl-format" title="Permanent link">&para;</a></h3>
 <p>Human-readable, one task per line:</p>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="s2">&quot;tf-abc123&quot;</span><span class="p">,</span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="s2">&quot;Fix bug&quot;</span><span class="p">,</span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;open&quot;</span><span class="p">,</span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="s2">&quot;tf-def456&quot;</span><span class="p">,</span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="s2">&quot;Add feature&quot;</span><span class="p">,</span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;in_progress&quot;</span><span class="p">,</span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"tf-abc123"</span><span class="p">,</span><span class="nt">"title"</span><span class="p">:</span><span class="s2">"Fix bug"</span><span class="p">,</span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"open"</span><span class="p">,</span><span class="nt">"priority"</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"tf-def456"</span><span class="p">,</span><span class="nt">"title"</span><span class="p">:</span><span class="s2">"Add feature"</span><span class="p">,</span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"in_progress"</span><span class="p">,</span><span class="nt">"priority"</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span>
 </span></code></pre></div>
 <h3 id="sqlite-cache">SQLite Cache<a class="headerlink" href="#sqlite-cache" title="Permanent link">&para;</a></h3>
 <p>Provides:
@@ -2170,7 +2170,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.path", "navigation.indexes", "navigation.top", "toc.follow", "search.suggest", "search.highlight", "search.share", "header.autohide", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips", "content.action.edit", "content.action.view"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.0.1"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

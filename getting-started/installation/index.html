@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -644,6 +644,23 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#optional-mcp-http-transport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional: MCP HTTP transport
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1617,6 +1634,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#optional-mcp-http-transport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional: MCP HTTP transport
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1721,7 +1755,7 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>gem<span class="w"> </span>install<span class="w"> </span>trak_flow
 </span></code></pre></div>
 <h2 id="add-to-your-gemfile">Add to Your Gemfile<a class="headerlink" href="#add-to-your-gemfile" title="Permanent link">&para;</a></h2>
-<div class="language-ruby highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">gem</span><span class="w"> </span><span class="s1">&#39;trak_flow&#39;</span>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">gem</span><span class="w"> </span><span class="s1">'trak_flow'</span>
 </span></code></pre></div>
 <p>Then run:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>bundle<span class="w"> </span>install
@@ -1744,9 +1778,9 @@
 </span></code></pre></div>
 <p>This creates a <code>.trak_flow/</code> directory with:</p>
 <ul>
-<li><code>issues.jsonl</code> - Git-tracked task storage</li>
+<li><code>tasks.jsonl</code> - Git-tracked task storage</li>
 <li><code>trak_flow.db</code> - SQLite cache (gitignored)</li>
-<li><code>config.json</code> - Project configuration</li>
+<li><code>config.yml</code> - Project configuration</li>
 <li><code>.gitignore</code> - Ignores the database file</li>
 </ul>
 <h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
@@ -1764,6 +1798,10 @@
 <td>CLI framework</td>
 </tr>
 <tr>
+<td><code>sequel</code></td>
+<td>Database toolkit</td>
+</tr>
+<tr>
 <td><code>sqlite3</code></td>
 <td>Local database</td>
 </tr>
@@ -1772,23 +1810,37 @@
 <td>Fast JSON parsing</td>
 </tr>
 <tr>
+<td><code>anyway_config</code></td>
+<td>Configuration management</td>
+</tr>
+<tr>
 <td><code>pastel</code></td>
 <td>Terminal colors</td>
 </tr>
 <tr>
-<td><code>tty-table</code></td>
-<td>Table formatting</td>
+<td><code>tty-table</code> / <code>tty-spinner</code></td>
+<td>Terminal formatting</td>
 </tr>
 <tr>
-<td><code>fast_mcp</code></td>
+<td><code>fast-mcp</code></td>
 <td>MCP server support</td>
 </tr>
 <tr>
-<td><code>puma</code></td>
-<td>HTTP server for MCP</td>
+<td><code>debug_me</code></td>
+<td>Debug output</td>
 </tr>
 </tbody>
 </table>
+<h3 id="optional-mcp-http-transport">Optional: MCP HTTP transport<a class="headerlink" href="#optional-mcp-http-transport" title="Permanent link">&para;</a></h3>
+<p>The MCP server's HTTP/SSE transport is opt-in — TrakFlow does not bundle a
+web server. Add the <code>rackup</code> gem plus any Rack server that supports
+<code>rack.hijack</code> (Puma, Falcon, WEBrick, ...) to your Gemfile:</p>
+<div class="language-ruby highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">gem</span><span class="w"> </span><span class="s2">"rackup"</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">gem</span><span class="w"> </span><span class="s2">"puma"</span><span class="w">   </span><span class="c1"># or falcon, webrick, ... — skip if your app already has one</span>
+</span></code></pre></div>
+<p>If your application already runs its own Rack server, you don't need any of
+this: mount <code>TrakFlow::Mcp::Server.new.rack_app</code> into it instead. The STDIO
+transport (the default) needs nothing extra.</p>
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../quick-start/">Quick Start</a> - Create your first tasks</li>
@@ -1866,7 +1918,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.path", "navigation.indexes", "navigation.top", "toc.follow", "search.suggest", "search.highlight", "search.share", "header.autohide", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips", "content.action.edit", "content.action.view"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.0.1"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
