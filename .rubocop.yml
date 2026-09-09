@@ -1,0 +1,187 @@
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  TargetRubyVersion: 4.0
+  Exclude:
+    - 'examples/**/*'
+    - 'docs/**/*'
+    - 'site/**/*'
+    - 'pkg/**/*'
+    - 'coverage/**/*'
+    - 'notes/**/*'
+    - 'vendor/**/*'
+
+# ── Style: disabled cops ───────────────────────────────────────────────────
+Style/StringLiterals:
+  Enabled: false
+
+Style/StringLiteralsInInterpolation:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+# Ruby 4.0 freezes string literals by default
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/RescueModifier:
+  Enabled: false
+
+Style/TrivialAccessors:
+  Enabled: false
+
+Style/MultilineTernaryOperator:
+  Enabled: false
+
+Style/SafeNavigation:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/RescueStandardError:
+  Enabled: false
+
+# Both % and format/sprintf are acceptable
+Style/FormatString:
+  Enabled: false
+
+# String concatenation and interpolation are both acceptable
+Style/StringConcatenation:
+  Enabled: false
+
+# ── Layout ─────────────────────────────────────────────────────────────────
+Layout/LineLength:
+  Max: 140
+
+Layout/ExtraSpacing:
+  Enabled: false
+
+Layout/HashAlignment:
+  Enabled: false
+
+Layout/FirstHashElementIndentation:
+  Enabled: false
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+# ── Naming ─────────────────────────────────────────────────────────────────
+# Archspec.rb is the filename the archspec tool requires (like Gemfile/Rakefile)
+Naming/FileName:
+  Exclude:
+    - 'Archspec.rb'
+
+# Single-char params (c, e, n) are acceptable throughout
+Naming/MethodParameterName:
+  Enabled: false
+
+Naming/RescuedExceptionsVariableName:
+  Enabled: false
+
+Naming/AccessorMethodName:
+  Enabled: false
+
+Naming/PredicatePrefix:
+  Enabled: false
+
+Naming/PredicateMethod:
+  Exclude:
+    - 'test/**/*'
+
+# ── Lint: relax noisy cops on intentional patterns ─────────────────────────
+Lint/EmptyBlock:
+  Exclude:
+    - 'test/**/*'
+
+# Library and framework methods commonly accept args for API/documentation purposes
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+Lint/ConstantDefinitionInBlock:
+  Exclude:
+    - 'Rakefile'
+    - 'test/**/*'
+
+# ── Gemspec ────────────────────────────────────────────────────────────────
+# trak_flow declares dev deps directly in the gemspec (not a Gemfile group).
+# The Gemfile deliberately carries a few extra gems the gemspec must not:
+# ruby_llm/ruby_llm-mcp and puma/rackup are opt-in for consumers (see the
+# Gemfile comments), and fasterer/reek are quality-gate tools.
+Gemspec/DevelopmentDependencies:
+  EnforcedStyle: gemspec
+  AllowedGems:
+    - ruby_llm
+    - ruby_llm-mcp
+    - puma
+    - rackup
+    - fasterer
+    - reek
+
+Gemspec/RequiredRubyVersion:
+  Enabled: false
+
+Gemspec/OrderedDependencies:
+  Enabled: false
+
+# ── Metrics ────────────────────────────────────────────────────────────────
+# Flog is the primary complexity gate (see dev/quality.loki flog_check) —
+# these RuboCop thresholds catch only egregious outliers without duplicating
+# flog's more precise per-method scoring.
+
+Metrics/MethodLength:
+  Max: 35
+  CountAsOne:
+    - heredoc
+    - array
+    - hash
+  Exclude:
+    - 'test/**/*'
+    - 'bin/**/*'
+
+Metrics/AbcSize:
+  Max: 40
+  Exclude:
+    - 'test/**/*'
+    - 'bin/**/*'
+
+Metrics/ClassLength:
+  Max: 650
+  Exclude:
+    - 'test/**/*'
+    - 'bin/**/*'
+
+Metrics/ModuleLength:
+  Max: 200
+  Exclude:
+    - 'test/**/*'
+    - 'bin/**/*'
+
+Metrics/CyclomaticComplexity:
+  Max: 20
+  Exclude:
+    - 'test/**/*'
+    - 'bin/**/*'
+
+Metrics/PerceivedComplexity:
+  Max: 20
+  Exclude:
+    - 'test/**/*'
+    - 'bin/**/*'
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Metrics/BlockLength:
+  # Thor's no_commands wraps a whole group of helper methods in one block
+  AllowedMethods:
+    - no_commands
+  Exclude:
+    - 'Rakefile'
+    - '*.gemspec'
+    - 'test/**/*'
+    - 'bin/**/*'

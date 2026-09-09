@@ -102,10 +102,14 @@ defaults:
 
   # ---------------------------------------------------------------------------
   # MCP Server Configuration
-  # Access: TrakFlow.config.mcp.port
+  # Access: TrakFlow.config.mcp.port, TrakFlow.config.mcp.handler
   # ---------------------------------------------------------------------------
   mcp:
     port: 3333
+    # Rack server for the HTTP transport, by Rackup handler name (e.g.
+    # "puma", "falcon", "webrick"). Null lets Rackup pick whatever server
+    # the bundle already carries. The server must support rack.hijack.
+    handler: ~
 
   # ---------------------------------------------------------------------------
   # Actor Configuration

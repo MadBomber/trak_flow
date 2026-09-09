@@ -13,33 +13,21 @@ module TrakFlow
       option :cascade, type: :boolean, default: false, desc: "Also delete children"
       def cleanup
         with_database do |db|
-          cutoff = Time.now.utc - (options[:older_than] * 24 * 60 * 60)
-          candidates = db.list_tasks(status: "closed", include_tombstones: true)
-                         .select { |i| i.closed_at && i.closed_at < cutoff }
+          candidates = cleanup_candidates(db)
+          count = candidates.size
 
           if candidates.empty?
             puts "No tasks to clean up"
             return
           end
 
-          if options[:dry_run]
-            puts "Would delete #{candidates.size} task(s):"
-            candidates.each { |i| puts "  #{i.id}: #{i.title}" }
-            return
-          end
+          return print_cleanup_dry_run(candidates) if options[:dry_run]
+          return unless options[:force] || confirm_cleanup?(count)
 
-          unless options[:force]
-            puts "About to delete #{candidates.size} task(s). Continue? (y/n)"
-            return unless $stdin.gets.strip.downcase == "y"
-          end
+          delete_candidates(db, candidates)
 
-          candidates.each do |task|
-            db.child_tasks(task.id).each { |c| db.delete_task(c.id) } if options[:cascade]
-            db.delete_task(task.id)
-          end
-
-          output({ deleted: candidates.size }) do
-            puts "Deleted #{candidates.size} task(s)"
+          output({ deleted: count }) do
+            puts "Deleted #{count} task(s)"
           end
         end
       end
@@ -49,28 +37,13 @@ module TrakFlow
       option :apply, type: :boolean, default: false, desc: "Apply compaction"
       def compact
         with_database do |db|
-          stats = {
-            total_tasks: db.all_task_ids.size,
-            closed_tasks: db.list_tasks(status: "closed", include_tombstones: true).size,
-            ephemeral: db.find_ephemeral_workflows.size,
-            plans: db.find_plans.size,
-            workflows: db.find_workflows.size
-          }
-
           if options[:analyze]
+            stats = compaction_stats(db)
             output(stats) do
               stats.each { |k, v| puts "#{k}: #{v}" }
             end
-            return
-          end
-
-          if options[:apply]
-            db.list_tasks(status: "closed").each do |task|
-              next unless task.closed_at && task.closed_at < (Time.now.utc - 30 * 24 * 60 * 60)
-
-              task.status = "tombstone"
-              db.update_task(task)
-            end
+          elsif options[:apply]
+            tombstone_old_closed_tasks(db)
             puts "Compaction complete"
           else
             puts "Use --analyze to see stats or --apply to compact"
@@ -87,13 +60,13 @@ module TrakFlow
           dep_graph = Graph::DependencyGraph.new(db)
 
           graph_output = case options[:format]
-            when "svg" then dep_graph.to_svg(include_closed: options[:include_closed])
-            else dep_graph.to_dot(include_closed: options[:include_closed])
-            end
+                         when "svg" then dep_graph.to_svg(include_closed: options[:include_closed])
+                         else dep_graph.to_dot(include_closed: options[:include_closed])
+                         end
 
-          if options[:output]
-            File.write(options[:output], graph_output)
-            puts "Graph written to #{options[:output]}"
+          if (output_path = options[:output])
+            File.write(output_path, graph_output)
+            puts "Graph written to #{output_path}"
           else
             puts graph_output
           end
@@ -103,32 +76,77 @@ module TrakFlow
       desc "analyze", "Analyze the task graph"
       def analyze
         with_database do |db|
-          dep_graph = Graph::DependencyGraph.new(db)
-          analysis = dep_graph.analyze
-
-          output(analysis) do
-            analysis.each do |k, v|
-              if v.is_a?(Array)
-                puts "#{k}:"
-                v.each { |item| puts "  - #{item}" }
-              else
-                puts "#{k}: #{v}"
-              end
-            end
-          end
+          analysis = Graph::DependencyGraph.new(db).analyze
+          output(analysis) { print_analysis(analysis) }
         end
       end
 
       private
 
-      # Delegate helper methods to parent CLI
-      def with_database(&block) = CLI.new.with_database(&block)
+      def print_analysis(analysis)
+        analysis.each do |k, v|
+          if v.is_a?(Array)
+            puts "#{k}:"
+            v.each { |item| puts "  - #{item}" }
+          else
+            puts "#{k}: #{v}"
+          end
+        end
+      end
 
-      def output(json_data, &human_block)
+      # Closed tasks (tombstones included) whose closed_at is older than --older-than days.
+      def cleanup_candidates(db)
+        cutoff = Time.now.utc - (options[:older_than] * 24 * 60 * 60)
+        db.list_tasks(status: "closed", include_tombstones: true)
+          .select { |i| i.closed_at && i.closed_at < cutoff }
+      end
+
+      def print_cleanup_dry_run(candidates)
+        puts "Would delete #{candidates.size} task(s):"
+        candidates.each { |i| puts "  #{i.id}: #{i.title}" }
+      end
+
+      def confirm_cleanup?(count)
+        puts "About to delete #{count} task(s). Continue? (y/n)"
+        $stdin.gets.strip.downcase == "y"
+      end
+
+      def delete_candidates(db, candidates)
+        candidates.each do |task|
+          db.child_tasks(task.id).each { |c| db.delete_task(c.id) } if options[:cascade]
+          db.delete_task(task.id)
+        end
+      end
+
+      def compaction_stats(db)
+        {
+          total_tasks: db.all_task_ids.size,
+          closed_tasks: db.list_tasks(status: "closed", include_tombstones: true).size,
+          ephemeral: db.find_ephemeral_workflows.size,
+          plans: db.find_plans.size,
+          workflows: db.find_workflows.size
+        }
+      end
+
+      # Marks closed tasks older than 30 days as tombstones.
+      def tombstone_old_closed_tasks(db)
+        cutoff = Time.now.utc - (30 * 24 * 60 * 60)
+        db.list_tasks(status: "closed").each do |task|
+          next unless task.closed_at && task.closed_at < cutoff
+
+          task.status = "tombstone"
+          db.update_task(task)
+        end
+      end
+
+      # Delegate helper methods to parent CLI
+      def with_database(&) = CLI.new.with_database(&)
+
+      def output(json_data)
         if options[:json]
           puts Oj.dump(json_data, mode: :compat, indent: 2)
         else
-          human_block.call
+          yield
         end
       end
     end

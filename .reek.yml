@@ -1,0 +1,161 @@
+---
+# Reek configuration for trak_flow, following the sqa_project/.reek.yml
+# conventions used across the madbomber workspace.
+detectors:
+
+  # Disabled: public methods are documented via comments above the method,
+  # not a module-level comment.
+  IrresponsibleModule:
+    enabled: false
+
+  # Disabled: private helpers that don't reference self are fine where they are.
+  UtilityFunction:
+    enabled: false
+
+  # Disabled: respond_to? duck-typing is intentional.
+  ManualDispatch:
+    enabled: false
+
+  # Disabled: attr_accessor is standard Ruby; public attributes are a design choice.
+  Attribute:
+    enabled: false
+
+  # Disabled: bang methods without non-bang counterparts are common.
+  MissingSafeMethod:
+    enabled: false
+
+  # Disabled: explicit nil checks are idiomatic Ruby.
+  NilCheck:
+    enabled: false
+
+  # Disabled: in this codebase the "envied" receivers are db handles, option
+  # hashes, and IO objects — the suggested "move it to another class" is not
+  # applicable to a Sequel dataset or a parsed-JSON hash.
+  FeatureEnvy:
+    enabled: false
+
+  # Disabled: config-driven dispatch (error_policy, orphan_handling) is this
+  # gem's deliberate API style — a case over a policy string.
+  ControlParameter:
+    enabled: false
+
+  # Disabled: boolean keyword flags (ephemeral:, include_closed:, ...) are
+  # idiomatic Ruby and part of the public API.
+  BooleanParameter:
+    enabled: false
+
+  # Disabled: mirrors the RuboCop Lint/UnusedMethodArgument setting — args
+  # kept for API/documentation shape.
+  UnusedParameters:
+    enabled: false
+
+  # Default is 1 — two-deep iteration (a hash of arrays, rows of columns) is
+  # idiomatic Ruby.
+  NestedIterators:
+    max_allowed_nesting: 2
+
+  # Default is 1 — fires whenever a method is called even twice. Raise to 2.
+  # Excluded: the `dataset = dataset.where(...) if ...` filter chain and the
+  # three separate conditional alter_table migrations are the pattern itself,
+  # not accidental repetition.
+  DuplicateMethodCall:
+    max_calls: 2
+    exclude:
+      - "TrakFlow::Storage::Database#apply_date_filters"
+      - "TrakFlow::Storage::Database#migrate_schema_if_needed!"
+
+  # Default is 5 — too tight for orchestrator/dispatch methods; flog (see
+  # dev/quality.loki) is the blocking complexity gate, so raw statement count
+  # only needs to catch outliers. Excluded: the Sequel schema DSL and the
+  # migration steps are one statement per column/index — flat and declarative.
+  TooManyStatements:
+    max_statements: 15
+    exclude:
+      - "TrakFlow::Storage::Database#create_tasks_table"
+      - "TrakFlow::Storage::Database#migrate_schema_if_needed!"
+
+  # Disabled: flags the same guard reused across a class's methods (the
+  # options[:json] output mode, File.exist? checks, `if deleted.positive?`
+  # after deletes). Extracting these into state objects adds indirection
+  # without removing the underlying condition.
+  RepeatedConditional:
+    enabled: false
+
+  # Default is 3 — too low for methods with several named inputs. The MCP
+  # tool #call methods mirror their declared MCP input schemas verbatim.
+  LongParameterList:
+    max_params: 5
+    overrides:
+      initialize:
+        max_params: 8
+    exclude:
+      - "TrakFlow::Mcp::Tools::TaskCreate#call"
+      - "TrakFlow::Mcp::Tools::TaskUpdate#call"
+
+  # Default is 15; CLI-command classes legitimately carry more methods
+  # after complexity-driven extraction. Excluded: Database is the single
+  # facade over all Sequel access; CLI is the Thor command surface.
+  TooManyMethods:
+    max_methods: 25
+    exclude:
+      - "TrakFlow::Storage::Database"
+      - "TrakFlow::CLI"
+
+  # Default is 4 — too low for state-heavy objects.
+  TooManyInstanceVariables:
+    max_instance_variables: 20
+
+  TooManyConstants:
+    max_constants: 8
+
+  DataClump:
+    max_copies: 2
+    min_clump_size: 3
+
+  # Accept standard Ruby short-name conventions for limited-scope variables.
+  UncommunicativeVariableName:
+    accept:
+      - _
+      - a
+      - b
+      - c
+      - d
+      - e
+      - f
+      - h
+      - i
+      - k
+      - l
+      - m
+      - n
+      - p
+      - q
+      - r
+      - s
+      - t
+      - v
+
+  UncommunicativeParameterName:
+    accept:
+      - e
+      - i
+      - f
+      - k
+      - v
+      - t
+      - r
+      - s
+      - m
+      - n
+      - q
+      - b
+      - p
+
+exclude_paths:
+  - test
+  - examples
+  - docs
+  - coverage
+  - pkg
+  - site
+  - notes

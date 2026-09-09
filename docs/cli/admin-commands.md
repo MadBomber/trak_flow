@@ -34,9 +34,9 @@ tf admin init --force
 
 ```
 .trak_flow/
-├── issues.jsonl    # Task data
+├── tasks.jsonl    # Task data
 ├── trak_flow.db    # SQLite cache
-└── config.json     # Configuration
+└── config.yml     # Configuration
 ```
 
 ## Export Data
@@ -365,5 +365,5 @@ Add to your git workflow:
 ```bash
 # .git/hooks/pre-commit
 #!/bin/bash
-cp .trak_flow/issues.jsonl .trak_flow/issues.jsonl.bak
+cp .trak_flow/tasks.jsonl .trak_flow/tasks.jsonl.bak
 ```

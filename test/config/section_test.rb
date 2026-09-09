@@ -194,10 +194,12 @@ class ConfigSectionTest < Minitest::Test
   # ==========================================================================
 
   def test_each_iterates_over_all_pairs
+    # rubocop:disable Style/MapIntoArray -- the block form of #each is what's under test
     pairs = []
     @section.each { |k, v| pairs << [k, v] }
+    # rubocop:enable Style/MapIntoArray
     assert_equal 3, pairs.size
-    assert pairs.any? { |k, v| k == :host && v == "localhost" }
+    assert(pairs.any? { |k, v| k == :host && v == "localhost" })
   end
 
   def test_each_returns_enumerator_without_block

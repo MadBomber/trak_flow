@@ -1,0 +1,27 @@
+# Quality-gate reports (asgard quality writes these at the repo root)
+*_output.txt
+
+# Test coverage (SimpleCov)
+/coverage/
+
+# Built gem packages
+/pkg/
+*.gem
+
+# MkDocs build output (docs/ is the source; site/ is generated)
+/site/
+
+# Tool caches and scratch space (RuboCop cache, etc.)
+/tmp/
+
+# aigcm commit-message scratch file
+.aigcm_msg
+
+# Personal notes, not project documentation
+/notes/
+
+# Claude Code local (per-machine) settings
+.claude/settings.local.json
+
+# Bundler local state
+/.bundle/

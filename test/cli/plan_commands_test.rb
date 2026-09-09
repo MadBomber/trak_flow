@@ -57,7 +57,7 @@ class PlanCommandsTest < Minitest::Test
 
     result = run_cli_json("plan", "list")
     assert_equal 2, result.size
-    assert result.all? { |p| p["plan"] == true }
+    assert(result.all? { |p| p["plan"] == true })
   end
 
   def test_plan_show

@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 require "fast_mcp"
-require "puma"
-require "puma/configuration"
-require "rack"
-require "rackup"
 
 module TrakFlow
   module Mcp
@@ -25,30 +21,16 @@ module TrakFlow
         mcp_server.start
       end
 
-      def start_http(port: nil)
+      def start_http(port: nil, handler: nil)
+        require_http_transport_gems
         port ||= TrakFlow.config.mcp.port
         puts "Starting TrakFlow MCP Server (HTTP transport on port #{port})..."
 
-        rack_app = create_rack_app
-
-        # Configure Puma (supports rack.hijack for SSE)
-        puma_config = Puma::Configuration.new do |config|
-          config.bind "tcp://0.0.0.0:#{port}"
-          config.threads 1, 5
-          config.workers 0
-          config.quiet
-          config.app rack_app
-        end
-
-        launcher = Puma::Launcher.new(puma_config)
-
-        trap("INT") { launcher.stop }
-        trap("TERM") { launcher.stop }
-
-        launcher.run
+        start_http_server(port, handler)
       end
 
-      def start_both(http_port: nil)
+      def start_both(http_port: nil, handler: nil)
+        require_http_transport_gems
         http_port ||= TrakFlow.config.mcp.port
         puts "Starting TrakFlow MCP Server (dual transport)..."
         puts "  - HTTP: port #{http_port}"
@@ -56,7 +38,7 @@ module TrakFlow
 
         # Start HTTP in a thread
         http_thread = Thread.new do
-          start_http_server(http_port)
+          start_http_server(http_port, handler)
         end
 
         # Run STDIO in main thread (blocking)
@@ -65,9 +47,20 @@ module TrakFlow
         http_thread.join
       end
 
-      private
+      # The MCP transport as a plain Rack application. Public so a host app
+      # that already runs its own Rack server can mount it there instead of
+      # letting trak_flow boot a second server:
+      #
+      #   # config.ru of the host app
+      #   map "/mcp" do
+      #     run TrakFlow::Mcp::Server.new.rack_app
+      #   end
+      #
+      # The host's server must support rack.hijack for SSE (Puma, Falcon,
+      # WEBrick, iodine all do).
+      def rack_app
+        require "rack"
 
-      def create_rack_app
         server = mcp_server
         Rack::Builder.new do
           use FastMcp::Transports::RackTransport, server
@@ -75,65 +68,73 @@ module TrakFlow
         end.to_app
       end
 
-      def start_http_server(port)
-        rack_app = create_rack_app
-
-        # Configure Puma (supports rack.hijack for SSE)
-        puma_config = Puma::Configuration.new do |config|
-          config.bind "tcp://0.0.0.0:#{port}"
-          config.threads 1, 5
-          config.workers 0
-          config.quiet
-          config.app rack_app
-        end
-
-        launcher = Puma::Launcher.new(puma_config)
-
-        trap("INT") { launcher.stop }
-        trap("TERM") { launcher.stop }
-
-        launcher.run
+      # The Rack server that will run the HTTP transport, resolved through
+      # the generic Rackup handler interface so any registered server works.
+      # Priority: the explicit argument, then TrakFlow.config.mcp.handler
+      # (or the TF_MCP__HANDLER env var), then Rackup's default lookup —
+      # which picks a server already in the bundle (puma, falcon, webrick).
+      def http_handler(handler_name = nil)
+        handler_name ||= TrakFlow.config.mcp.handler
+        handler_name ? Rackup::Handler.get(handler_name) : Rackup::Handler.default
+      rescue LoadError, NameError => e
+        raise LoadError,
+              "No usable Rack server#{" for handler '#{handler_name}'" if handler_name} found in the bundle. " \
+              'Add one that supports rack.hijack — e.g. `gem "puma"` — to your Gemfile. ' \
+              "(#{e.message})"
       end
 
+      # Loads the gems the HTTP transport needs. They are optional
+      # dependencies — deliberately NOT in the gemspec, so consumers that
+      # only use the models/storage API (or the stdio transport) don't
+      # carry HTTP machinery. The Rack *server* is the host application's
+      # choice: any bundled server registered with Rackup will do.
+      def require_http_transport_gems
+        require "rack"
+        require "rackup"
+      rescue LoadError => e
+        raise LoadError,
+              "TrakFlow's MCP HTTP transport needs the optional rackup gem plus a Rack " \
+              'server that supports rack.hijack. Add `gem "rackup"` — and `gem "puma"` ' \
+              "if your app doesn't already bundle a server — to your Gemfile. (#{e.message})"
+      end
+
+      private
+
+      def start_http_server(port, handler_name = nil)
+        http_handler(handler_name).run(rack_app, Host: "0.0.0.0", Port: port)
+      end
+
+      # Every tool the MCP server exposes, grouped by concern.
+      TOOLS = [
+        # Task management
+        Tools::TaskCreate, Tools::TaskUpdate, Tools::TaskClose,
+        Tools::TaskStart, Tools::TaskBlock, Tools::TaskDefer,
+        # Plan/Workflow
+        Tools::PlanCreate, Tools::PlanAddStep, Tools::PlanStart,
+        Tools::PlanRun, Tools::WorkflowDiscard, Tools::WorkflowSummarize,
+        # Dependencies
+        Tools::DepAdd, Tools::DepRemove,
+        # Labels
+        Tools::LabelAdd, Tools::LabelRemove,
+        # Comments
+        Tools::CommentAdd
+      ].freeze
+
+      RESOURCES = [
+        Resources::TaskList, Resources::TaskById, Resources::TaskNext,
+        Resources::PlanList, Resources::PlanById,
+        Resources::WorkflowList, Resources::WorkflowById,
+        Resources::LabelList, Resources::DependencyGraph
+      ].freeze
+
+      private_constant :TOOLS, :RESOURCES
+
       def register_tools
-        # Task management tools
-        mcp_server.register_tool(Tools::TaskCreate)
-        mcp_server.register_tool(Tools::TaskUpdate)
-        mcp_server.register_tool(Tools::TaskClose)
-        mcp_server.register_tool(Tools::TaskStart)
-        mcp_server.register_tool(Tools::TaskBlock)
-        mcp_server.register_tool(Tools::TaskDefer)
-
-        # Plan/Workflow tools
-        mcp_server.register_tool(Tools::PlanCreate)
-        mcp_server.register_tool(Tools::PlanAddStep)
-        mcp_server.register_tool(Tools::PlanStart)
-        mcp_server.register_tool(Tools::PlanRun)
-        mcp_server.register_tool(Tools::WorkflowDiscard)
-        mcp_server.register_tool(Tools::WorkflowSummarize)
-
-        # Dependency tools
-        mcp_server.register_tool(Tools::DepAdd)
-        mcp_server.register_tool(Tools::DepRemove)
-
-        # Label tools
-        mcp_server.register_tool(Tools::LabelAdd)
-        mcp_server.register_tool(Tools::LabelRemove)
-
-        # Comment tool
-        mcp_server.register_tool(Tools::CommentAdd)
+        TOOLS.each { |tool| mcp_server.register_tool(tool) }
       end
 
       def register_resources
-        mcp_server.register_resource(Resources::TaskList)
-        mcp_server.register_resource(Resources::TaskById)
-        mcp_server.register_resource(Resources::TaskNext)
-        mcp_server.register_resource(Resources::PlanList)
-        mcp_server.register_resource(Resources::PlanById)
-        mcp_server.register_resource(Resources::WorkflowList)
-        mcp_server.register_resource(Resources::WorkflowById)
-        mcp_server.register_resource(Resources::LabelList)
-        mcp_server.register_resource(Resources::DependencyGraph)
+        RESOURCES.each { |resource| mcp_server.register_resource(resource) }
       end
     end
   end

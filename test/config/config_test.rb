@@ -3,7 +3,7 @@
 require_relative "../test_helper"
 
 class ConfigTest < Minitest::Test
-  # Note: These tests do NOT use TrakFlowTestHelper because config tests
+  # NOTE: These tests do NOT use TrakFlowTestHelper because config tests
   # should run in the project directory where defaults.yml is accessible
 
   def teardown

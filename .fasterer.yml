@@ -1,0 +1,10 @@
+# Fasterer configuration for trak_flow.
+speedups:
+  # Conflicts with RuboCop's Style/RedundantFetchBlock, which wins here:
+  # the flagged defaults are frozen literals, so the block form saves no
+  # allocation. Only expensive defaults would justify the block.
+  fetch_with_argument_vs_block: false
+  # Rejected on purpose: rewriting readable each_with_index line parsing
+  # (Jsonl#read_entities) as a manual while loop trades clarity for a
+  # micro-optimization in IO-bound code.
+  each_with_index_vs_while: false

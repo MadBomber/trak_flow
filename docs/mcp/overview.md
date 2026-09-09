@@ -18,19 +18,41 @@ require 'trak_flow'
 require 'trak_flow/mcp'
 
 # Start the MCP server over STDIO
-TrakFlow::Mcp::Server.new.run
+TrakFlow::Mcp::Server.new.start_stdio
 ```
 
 ### HTTP/SSE Transport (For Remote Access)
+
+Requires the optional `rackup` gem plus a Rack server that supports
+`rack.hijack` (Puma, Falcon, WEBrick, ...) in your bundle.
 
 ```ruby
 require 'trak_flow'
 require 'trak_flow/mcp'
 
-# Start with HTTP/SSE transport
+# Start with HTTP/SSE transport on whatever Rack server the bundle carries
 server = TrakFlow::Mcp::Server.new
-server.run_http(port: 9292)
+server.start_http(port: 3333)
+
+# Or name the server explicitly (also settable via config mcp.handler
+# or the TF_MCP__HANDLER environment variable)
+server.start_http(port: 3333, handler: "puma")
 ```
+
+### Embedding in an Existing Rack Application
+
+If your application already runs its own Rack server, don't start a second
+one — mount the MCP transport as a plain Rack app:
+
+```ruby
+# config.ru of the host application
+map "/mcp" do
+  run TrakFlow::Mcp::Server.new.rack_app
+end
+```
+
+One process, one server — the host's server choice (Puma, Falcon, ...)
+applies, as long as it supports `rack.hijack` for SSE.
 
 ## Architecture
 
@@ -49,7 +71,7 @@ graph LR
 
     subgraph "TrakFlow Core"
         DB[(SQLite)]
-        JSONL[issues.jsonl]
+        JSONL[tasks.jsonl]
     end
 
     LLM <--> Client
@@ -191,13 +213,12 @@ Currently, the MCP server does not implement authentication. For production use:
 
 ## Configuration
 
-Environment variables:
+Environment variables (via [anyway_config](https://github.com/palkan/anyway_config), prefix `TF_`):
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `TRAK_FLOW_DIR` | Data directory | `.trak_flow` |
-| `TRAK_FLOW_MCP_PORT` | HTTP port | `9292` |
-| `TRAK_FLOW_MCP_HOST` | HTTP host | `127.0.0.1` |
+| `TF_MCP__PORT` | HTTP port | `3333` |
+| `TF_MCP__HANDLER` | Rackup handler name for the HTTP server (e.g. `puma`, `falcon`) | auto-detect from bundle |
 
 ## Next Steps
 

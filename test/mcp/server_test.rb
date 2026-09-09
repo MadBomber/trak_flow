@@ -82,4 +82,48 @@ class MCPServerTest < Minitest::Test
              "Expected #{klass} to inherit from BaseResource"
     end
   end
+
+  def test_rack_app_is_a_rack_application
+    server = TrakFlow::Mcp::Server.new
+    app = server.rack_app
+
+    assert_respond_to app, :call
+  end
+
+  def test_rack_app_returns_404_for_unknown_paths
+    require "rack"
+    server = TrakFlow::Mcp::Server.new
+
+    status, _headers, _body = server.rack_app.call(Rack::MockRequest.env_for("/nope"))
+
+    assert_equal 404, status
+  end
+
+  def test_http_handler_resolves_explicit_name
+    require "rackup"
+    server = TrakFlow::Mcp::Server.new
+
+    handler = server.http_handler("puma")
+
+    assert_respond_to handler, :run
+  end
+
+  def test_http_handler_defaults_to_bundled_server
+    require "rackup"
+    server = TrakFlow::Mcp::Server.new
+
+    handler = server.http_handler
+
+    assert_respond_to handler, :run
+  end
+
+  def test_http_handler_raises_helpful_error_for_unknown_server
+    require "rackup"
+    server = TrakFlow::Mcp::Server.new
+
+    error = assert_raises(LoadError) { server.http_handler("no_such_server") }
+
+    assert_match(/no_such_server/, error.message)
+    assert_match(/puma/, error.message)
+  end
 end

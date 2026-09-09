@@ -132,33 +132,40 @@ module TrakFlow
           raise Error, "#{plan_id} is not a Plan" unless plan.plan?
 
           vars = options[:var] || {}
-
-          workflow = Models::Task.new(
-            title: interpolate_vars(plan.title, vars),
-            description: interpolate_vars(plan.description, vars),
-            type: plan.type,
-            priority: plan.priority,
-            source_plan_id: plan.id,
-            ephemeral: ephemeral
-          )
-          db.create_task(workflow)
-          workflow.append_trace("INSTANTIATED", "from Plan #{plan.id}")
-          db.update_task(workflow)
-
-          db.find_plan_tasks(plan_id).each do |step|
-            db.create_child_task(workflow.id, {
-              title: interpolate_vars(step.title, vars),
-              description: interpolate_vars(step.description, vars),
-              type: step.type,
-              priority: step.priority,
-              ephemeral: ephemeral
-            })
-          end
+          workflow = create_workflow_from_plan(db, plan, vars, ephemeral)
+          instantiate_plan_steps(db, plan_id, workflow.id, vars, ephemeral)
 
           mode = ephemeral ? "ephemeral" : "persistent"
           output(workflow.to_h) do
             puts "Created #{mode} Workflow: #{workflow.id}"
           end
+        end
+      end
+
+      def create_workflow_from_plan(db, plan, vars, ephemeral)
+        workflow = Models::Task.new(
+          title: interpolate_vars(plan.title, vars),
+          description: interpolate_vars(plan.description, vars),
+          type: plan.type,
+          priority: plan.priority,
+          source_plan_id: plan.id,
+          ephemeral: ephemeral
+        )
+        db.create_task(workflow)
+        workflow.append_trace("INSTANTIATED", "from Plan #{plan.id}")
+        db.update_task(workflow)
+        workflow
+      end
+
+      def instantiate_plan_steps(db, plan_id, workflow_id, vars, ephemeral)
+        db.find_plan_tasks(plan_id).each do |step|
+          db.create_child_task(workflow_id, {
+            title: interpolate_vars(step.title, vars),
+            description: interpolate_vars(step.description, vars),
+            type: step.type,
+            priority: step.priority,
+            ephemeral: ephemeral
+          })
         end
       end
 
@@ -171,13 +178,13 @@ module TrakFlow
       end
 
       # Delegate helper methods to parent CLI
-      def with_database(&block) = CLI.new.with_database(&block)
+      def with_database(&) = CLI.new.with_database(&)
 
-      def output(json_data, &human_block)
+      def output(json_data)
         if options[:json]
           puts Oj.dump(json_data, mode: :compat, indent: 2)
         else
-          human_block.call
+          yield
         end
       end
     end

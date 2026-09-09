@@ -56,14 +56,14 @@ module TrakFlow
       end
 
       # Delegate helper methods to parent CLI
-      def with_database(&block) = CLI.new.with_database(&block)
+      def with_database(&) = CLI.new.with_database(&)
       def status_icon(status) = CLI.new.status_icon(status)
 
-      def output(json_data, &human_block)
+      def output(json_data)
         if options[:json]
           puts Oj.dump(json_data, mode: :compat, indent: 2)
         else
-          human_block.call
+          yield
         end
       end
     end

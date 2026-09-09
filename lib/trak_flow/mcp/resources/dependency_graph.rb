@@ -12,17 +12,21 @@ module TrakFlow
         def content
           self.class.with_database do |db|
             tasks = db.list_tasks
-            nodes = tasks.map { |t| { id: t.id, title: t.title, status: t.status } }
 
-            edges = []
-            tasks.each do |task|
-              db.find_dependencies(task.id, direction: :outgoing).each do |dep|
-                edges << { source: dep.source_id, target: dep.target_id, type: dep.type }
-              end
-            end
-
-            result = { nodes: nodes, edges: edges }
+            result = {
+              nodes: tasks.map { |t| { id: t.id, title: t.title, status: t.status } },
+              edges: edges_for(db, tasks)
+            }
             Oj.dump(result, mode: :compat, indent: 2)
+          end
+        end
+
+        private
+
+        def edges_for(db, tasks)
+          tasks.flat_map do |task|
+            db.find_dependencies(task.id, direction: :outgoing)
+              .map { |dep| { source: dep.source_id, target: dep.target_id, type: dep.type } }
           end
         end
       end

@@ -53,7 +53,7 @@ class MCPToolsTest < Minitest::Test
 
   def test_task_create_with_labels
     tool = TrakFlow::Mcp::Tools::TaskCreate.new
-    result = tool.call(title: "Labeled task", labels: ["urgent", "backend"])
+    result = tool.call(title: "Labeled task", labels: %w[urgent backend])
 
     task = @db.find_task(result[:id])
     labels = @db.find_labels(task.id).map(&:name)

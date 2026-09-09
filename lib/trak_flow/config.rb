@@ -53,11 +53,13 @@ module TrakFlow
       SCHEMA = raw_yaml[:defaults] || {}
     rescue StandardError => e
       raise TrakFlow::ConfigurationError,
-        "Could not load schema from #{DEFAULTS_PATH}: #{e.message}"
+            "Could not load schema from #{DEFAULTS_PATH}: #{e.message}"
     end
 
     # Nested section attributes (defined as hashes, converted to ConfigSection)
-    attr_config :output, :daemon, :sync, :create, :validation, :id, :import, :export, :storage, :database, :mcp
+    SECTION_KEYS = %i[output daemon sync create validation id import export storage database mcp].freeze
+
+    attr_config(*SECTION_KEYS)
 
     # Top-level scalar attributes
     attr_config :actor
@@ -68,7 +70,7 @@ module TrakFlow
 
     def self.config_section_with_defaults(section_key)
       defaults = SCHEMA[section_key] || {}
-      ->(v) {
+      lambda { |v|
         return v if v.is_a?(ConfigSection)
         incoming = v || {}
         merged = deep_merge_hashes(defaults.dup, incoming)
@@ -86,19 +88,7 @@ module TrakFlow
       end
     end
 
-    coerce_types(
-      output: config_section_with_defaults(:output),
-      daemon: config_section_with_defaults(:daemon),
-      sync: config_section_with_defaults(:sync),
-      create: config_section_with_defaults(:create),
-      validation: config_section_with_defaults(:validation),
-      id: config_section_with_defaults(:id),
-      import: config_section_with_defaults(:import),
-      export: config_section_with_defaults(:export),
-      storage: config_section_with_defaults(:storage),
-      database: config_section_with_defaults(:database),
-      mcp: config_section_with_defaults(:mcp)
-    )
+    coerce_types(SECTION_KEYS.to_h { |key| [key, config_section_with_defaults(key)] })
 
     on_load :setup_defaults
 
@@ -229,13 +219,12 @@ module TrakFlow
       mapping = LEGACY_KEY_MAP[key.to_s]
       return unless mapping
 
-      if mapping.is_a?(Array)
-        if mapping.length == 1
-          send("#{mapping[0]}=", value)
-        else
-          section = send(mapping[0])
-          section.send("#{mapping[1]}=", value)
-        end
+      return unless mapping.is_a?(Array)
+      if mapping.length == 1
+        send("#{mapping[0]}=", value)
+      else
+        section = send(mapping[0])
+        section.send("#{mapping[1]}=", value)
       end
     end
 
@@ -244,18 +233,15 @@ module TrakFlow
     def setup_defaults
       # Ensure all sections are initialized with defaults even when no config files exist
       # Manually apply coercion since it only fires when values come from config sources
-      self.output = self.class.config_section_with_defaults(:output).call(output) unless output.is_a?(ConfigSection)
-      self.daemon = self.class.config_section_with_defaults(:daemon).call(daemon) unless daemon.is_a?(ConfigSection)
-      self.sync = self.class.config_section_with_defaults(:sync).call(sync) unless sync.is_a?(ConfigSection)
-      self.create = self.class.config_section_with_defaults(:create).call(create) unless create.is_a?(ConfigSection)
-      self.validation = self.class.config_section_with_defaults(:validation).call(validation) unless validation.is_a?(ConfigSection)
-      self.id = self.class.config_section_with_defaults(:id).call(self.id) unless self.id.is_a?(ConfigSection)
-      self.import = self.class.config_section_with_defaults(:import).call(self.import) unless self.import.is_a?(ConfigSection)
-      self.export = self.class.config_section_with_defaults(:export).call(self.export) unless self.export.is_a?(ConfigSection)
-      self.storage = self.class.config_section_with_defaults(:storage).call(self.storage) unless self.storage.is_a?(ConfigSection)
-      self.database = self.class.config_section_with_defaults(:database).call(self.database) unless self.database.is_a?(ConfigSection)
-      self.mcp = self.class.config_section_with_defaults(:mcp).call(self.mcp) unless self.mcp.is_a?(ConfigSection)
+      SECTION_KEYS.each { |key| ensure_section!(key) }
       self.actor ||= ENV.fetch('USER', 'unknown')
+    end
+
+    def ensure_section!(key)
+      current = send(key)
+      return if current.is_a?(ConfigSection)
+
+      send("#{key}=", self.class.config_section_with_defaults(key).call(current))
     end
   end
 

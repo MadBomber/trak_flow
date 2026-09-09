@@ -129,8 +129,8 @@ tf_mcp --http --port 3333
 ```
 .trak_flow/
 ├── trak_flow.db   # SQLite database (gitignored)
-├── issues.jsonl   # Git-tracked source of truth
-├── config.json    # Project configuration
+├── tasks.jsonl   # Git-tracked source of truth
+├── config.yml    # Project configuration
 └── .gitignore
 ```
 

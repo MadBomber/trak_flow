@@ -1,0 +1,33 @@
+# frozen_string_literal: true
+# trak_flow — distributed task tracking system for Robots (CLI + MCP server).
+
+# Shared MadBomber-level per-gem tasks (lifecycle, quality, git, docs).
+# import_up walks up from this repo until it finds madbomber/dev/.
+# Imported selectively — not "dev/*.loki" — so quality_rails.loki's
+# Rails-only gates (Brakeman, RailsBestPractices, ActiveRecordDoctor)
+# stay out of this non-Rails gem's quality run.
+import_up "dev/gem_tasks.loki"
+import_up "dev/quality.loki"
+import_up "dev/git.loki"
+import_up "dev/doc_tasks.loki"
+
+class Tasks
+  @@gem_name ||= "trak_flow".freeze
+
+  header "trak_flow v#{gem_version} — distributed task tracking for Robots"
+
+  desc "Run tests and RuboCop (rake default)"
+  def all
+    sh "bundle exec rake"
+  end
+
+  desc "Run the tf CLI (pass through arguments, e.g. asgard tf list)"
+  def tf(*args)
+    sh "bundle exec bin/tf #{args.join(' ')}"
+  end
+
+  desc "Start the TrakFlow MCP server"
+  def mcp(*args)
+    sh "bundle exec bin/tf_mcp #{args.join(' ')}", exec: true
+  end
+end

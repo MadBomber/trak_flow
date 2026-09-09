@@ -103,7 +103,7 @@ module TrakFlow
 
         # Load existing config or create new
         config_data = if File.exist?(config_path)
-                        YAML.safe_load(File.read(config_path), permitted_classes: [Symbol], symbolize_names: true) || {}
+                        YAML.safe_load_file(config_path, permitted_classes: [Symbol], symbolize_names: true) || {}
                       else
                         {}
                       end
@@ -161,20 +161,18 @@ module TrakFlow
         @pastel ||= Pastel.new
       end
 
-      def output(json_data, &human_block)
+      def output(json_data)
         if options[:json]
           puts Oj.dump(json_data, mode: :compat, indent: 2)
         else
-          human_block.call
+          yield
         end
       end
 
       def determine_config_path(global)
-        if global
-          XDG_CONFIG_PATH
-        elsif File.exist?(PROJECT_CONFIG_PATH)
-          File.expand_path(PROJECT_CONFIG_PATH)
-        elsif File.directory?(".trak_flow")
+        return XDG_CONFIG_PATH if global
+
+        if File.exist?(PROJECT_CONFIG_PATH) || File.directory?(".trak_flow")
           File.expand_path(PROJECT_CONFIG_PATH)
         else
           XDG_CONFIG_PATH
@@ -235,12 +233,9 @@ module TrakFlow
         when "false" then false
         when "nil", "null" then nil
         else
-          # Try integer
-          if value.match?(/\A-?\d+\z/)
-            value.to_i
-          # Try float
-          elsif value.match?(/\A-?\d+\.\d+\z/)
-            value.to_f
+          case value
+          when /\A-?\d+\z/ then value.to_i
+          when /\A-?\d+\.\d+\z/ then value.to_f
           else
             # Keep as string, expand ~ for paths
             value.start_with?("~") ? File.expand_path(value) : value

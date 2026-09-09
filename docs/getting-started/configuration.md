@@ -1,6 +1,6 @@
 # Configuration
 
-TrakFlow stores configuration in `.trak_flow/config.json`.
+TrakFlow stores configuration in `.trak_flow/config.yml`.
 
 ## View Current Configuration
 
@@ -102,7 +102,7 @@ Some settings can be overridden via environment variables:
 Delete the config file to reset:
 
 ```bash
-rm .trak_flow/config.json
+rm .trak_flow/config.yml
 tf init  # Recreates with defaults
 ```
 

@@ -13,14 +13,16 @@ module TrakFlow
     option :stealth, type: :boolean, default: false, desc: "Local-only mode without git integration"
 
     def init
+      trak_dir = TrakFlow.trak_flow_dir
+
       if TrakFlow.initialized?
         output({ success: false, error: "TrakFlow already initialized" }) do
-          puts pastel.red("Error: TrakFlow already initialized in #{TrakFlow.trak_flow_dir}")
+          puts pastel.red("Error: TrakFlow already initialized in #{trak_dir}")
         end
         return
       end
 
-      FileUtils.mkdir_p(TrakFlow.trak_flow_dir)
+      FileUtils.mkdir_p(trak_dir)
 
       db = Storage::Database.new
       db.connect
@@ -32,8 +34,8 @@ module TrakFlow
 
       setup_gitignore unless options[:stealth]
 
-      output({ success: true, path: TrakFlow.trak_flow_dir }) do
-        puts pastel.green("Initialized TrakFlow in #{TrakFlow.trak_flow_dir}")
+      output({ success: true, path: trak_dir }) do
+        puts pastel.green("Initialized TrakFlow in #{trak_dir}")
       end
     end
 
@@ -47,7 +49,7 @@ module TrakFlow
         database_path: TrakFlow.database_path,
         jsonl_path: TrakFlow.jsonl_path,
         config_path: TrakFlow.config_path,
-        initialized: TrakFlow.initialized?,
+        initialized: TrakFlow.initialized?
       }
 
       output(info_data) do
@@ -71,46 +73,12 @@ module TrakFlow
     def create(title)
       validate_option!(:type, TrakFlow::TYPES, options[:type])
       validate_option!(:priority, TrakFlow::PRIORITIES, options[:priority])
+      raise ValidationError, "Plans cannot be ephemeral" if options[:plan] && options[:ephemeral]
 
       with_database do |db|
-        description = options[:description]
-
-        if options[:body_file]
-          description = options[:body_file] == "-" ? $stdin.read : File.read(options[:body_file])
-        end
-
-        raise ValidationError, "Plans cannot be ephemeral" if options[:plan] && options[:ephemeral]
-
-        task = if options[:parent]
-            db.create_child_task(options[:parent], {
-              title: title,
-              description: description,
-              type: options[:type],
-              priority: options[:priority],
-              assignee: options[:assignee],
-              ephemeral: options[:ephemeral],
-            })
-          else
-            new_task = Models::Task.new(
-              title: title,
-              description: description,
-              type: options[:type],
-              priority: options[:priority],
-              assignee: options[:assignee],
-              plan: options[:plan],
-              ephemeral: options[:ephemeral],
-            )
-            db.create_task(new_task)
-          end
-
-        options[:labels]&.each do |label_name|
-          db.add_label(Models::Label.new(task_id: task.id, name: label_name))
-        end
-
-        options[:deps]&.each do |dep_spec|
-          type, target_id = dep_spec.split(":", 2)
-          db.add_dependency(Models::Dependency.new(source_id: task.id, target_id: target_id, type: type))
-        end
+        task = build_task(db, title, resolve_description)
+        attach_labels(db, task)
+        attach_dependencies(db, task)
 
         output(task.to_h) do
           puts "Created: #{pastel.bold(task.id)} - #{task.title}"
@@ -147,31 +115,7 @@ module TrakFlow
 
     def list
       with_database do |db|
-        filters = {
-          status: options[:status],
-          priority: options[:priority],
-          type: options[:type],
-          assignee: options[:assignee],
-          title_contains: options[:title_contains],
-        }.compact
-
-        tasks = db.list_tasks(filters)
-
-        if options[:label]
-          tasks = tasks.select do |task|
-            task_labels = db.find_labels(task.id).map(&:name)
-            options[:label].all? { |l| task_labels.include?(l) }
-          end
-        end
-
-        if options[:label_any]
-          tasks = tasks.select do |task|
-            task_labels = db.find_labels(task.id).map(&:name)
-            options[:label_any].any? { |l| task_labels.include?(l) }
-          end
-        end
-
-        tasks = tasks.take(options[:limit]) if options[:limit]
+        tasks = filtered_tasks(db)
 
         output(tasks.map(&:to_h)) do
           if tasks.empty?
@@ -197,13 +141,7 @@ module TrakFlow
 
       with_database do |db|
         task = db.find_task!(id)
-
-        task.status = options[:status] if options[:status]
-        task.priority = options[:priority] if options[:priority]
-        task.title = options[:title] if options[:title]
-        task.description = options[:description] if options[:description]
-        task.assignee = options[:assignee] if options[:assignee]
-
+        apply_task_updates(task)
         db.update_task(task)
 
         output(task.to_h) do
@@ -288,17 +226,18 @@ module TrakFlow
     def sync
       with_database do |db|
         jsonl = Storage::Jsonl.new
+        jsonl_path = jsonl.path
 
         if jsonl.exists?
           jsonl.import(db)
-          output({ success: true, action: "imported", path: jsonl.path }) do
-            puts pastel.green("Imported from #{jsonl.path}")
+          output({ success: true, action: "imported", path: jsonl_path }) do
+            puts pastel.green("Imported from #{jsonl_path}")
           end
         end
 
         jsonl.export(db)
-        output({ success: true, action: "exported", path: jsonl.path }) do
-          puts pastel.green("Exported to #{jsonl.path}")
+        output({ success: true, action: "exported", path: jsonl_path }) do
+          puts pastel.green("Exported to #{jsonl_path}")
         end
 
         unless TrakFlow.config.get("stealth") || TrakFlow.config.get("no_push")
@@ -328,33 +267,127 @@ module TrakFlow
 
     private
 
+    # Reads the task description from --description, --body-file, or stdin ("-").
+    def resolve_description
+      body_file = options[:body_file]
+      return $stdin.read if body_file == "-"
+      return File.read(body_file) if body_file
+
+      options[:description]
+    end
+
+    # Creates the task — as a child of --parent when given, standalone otherwise.
+    def build_task(db, title, description)
+      attrs = {
+        title: title,
+        description: description,
+        type: options[:type],
+        priority: options[:priority],
+        assignee: options[:assignee],
+        ephemeral: options[:ephemeral]
+      }
+
+      if options[:parent]
+        db.create_child_task(options[:parent], attrs)
+      else
+        db.create_task(Models::Task.new(plan: options[:plan], **attrs))
+      end
+    end
+
+    def attach_labels(db, task)
+      options[:labels]&.each do |label_name|
+        db.add_label(Models::Label.new(task_id: task.id, name: label_name))
+      end
+    end
+
+    def attach_dependencies(db, task)
+      options[:deps]&.each do |dep_spec|
+        type, target_id = dep_spec.split(":", 2)
+        db.add_dependency(Models::Dependency.new(source_id: task.id, target_id: target_id, type: type))
+      end
+    end
+
+    # Applies the list command's label/limit options on top of the db filters.
+    def filtered_tasks(db)
+      tasks = db.list_tasks(list_filters)
+      tasks = tasks.select { |task| (options[:label] - task_label_names(db, task)).empty? } if options[:label]
+      tasks = tasks.select { |task| options[:label_any].intersect?(task_label_names(db, task)) } if options[:label_any]
+      options[:limit] ? tasks.take(options[:limit]) : tasks
+    end
+
+    def list_filters
+      {
+        status: options[:status],
+        priority: options[:priority],
+        type: options[:type],
+        assignee: options[:assignee],
+        title_contains: options[:title_contains]
+      }.compact
+    end
+
+    def task_label_names(db, task)
+      db.find_labels(task.id).map(&:name)
+    end
+
+    # Copies each given update option onto the task; untouched fields keep their values.
+    def apply_task_updates(task)
+      %i[status priority title description assignee].each do |field|
+        task.send("#{field}=", options[field]) if options[field]
+      end
+    end
+
     def print_task_details(task, labels, deps, comments)
+      print_task_summary(task)
+      print_task_body(task, labels)
+      print_task_dependencies(task, deps)
+      print_task_comments(comments)
+    end
+
+    def print_task_summary(task)
       puts pastel.bold("Task: #{task.id}")
-      puts "Title: #{task.title}"
-      puts "Status: #{colorize_status(task.status)}"
-      puts "Priority: #{colorize_priority(task.priority)}"
-      puts "Type: #{task.type}"
-      puts "Assignee: #{task.assignee || "unassigned"}"
+      puts <<~SUMMARY
+        Title: #{task.title}
+        Status: #{colorize_status(task.status)}
+        Priority: #{colorize_priority(task.priority)}
+        Type: #{task.type}
+        Assignee: #{task.assignee || "unassigned"}
+      SUMMARY
       puts "Parent: #{task.parent_id}" if task.parent_id
       puts "Created: #{task.created_at}"
       puts "Updated: #{task.updated_at}"
       puts "Closed: #{task.closed_at}" if task.closed_at
-      puts ""
-      puts "Description:"
-      puts task.description.empty? ? "(none)" : task.description
-      puts ""
-      puts "Labels: #{labels.empty? ? "(none)" : labels.map(&:name).join(", ")}"
+    end
+
+    def print_task_body(task, labels)
+      puts <<~BODY
+
+        Description:
+        #{task.description.empty? ? "(none)" : task.description}
+
+        Labels: #{labels.empty? ? "(none)" : labels.map(&:name).join(", ")}
+      BODY
+    end
+
+    def print_task_dependencies(task, deps)
       puts ""
       puts "Dependencies:"
       if deps.empty?
         puts "  (none)"
       else
-        deps.each do |dep|
-          direction = dep.source_id == task.id ? "->" : "<-"
-          other_id = dep.source_id == task.id ? dep.target_id : dep.source_id
-          puts "  #{direction} #{other_id} (#{dep.type})"
-        end
+        deps.each { |dep| puts "  #{format_dependency(task, dep)}" }
       end
+    end
+
+    # Renders one dependency relative to the task being shown:
+    # "-> other (type)" when the task is the source, "<- other (type)" otherwise.
+    def format_dependency(task, dep)
+      outgoing = dep.source_id == task.id
+      direction = outgoing ? "->" : "<-"
+      other_id = outgoing ? dep.target_id : dep.source_id
+      "#{direction} #{other_id} (#{dep.type})"
+    end
+
+    def print_task_comments(comments)
       puts ""
       puts "Comments: #{comments.size}"
       comments.each do |comment|

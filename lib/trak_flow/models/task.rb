@@ -20,23 +20,27 @@ module TrakFlow
       VALID_PRIORITIES = TrakFlow::PRIORITIES
       VALID_TYPES = TrakFlow::TYPES
 
+      # Attributes that default to nil when not given.
+      NILABLE_ATTRIBUTES = %i[id title assignee parent_id closed_at content_hash source_plan_id].freeze
+
+      # Attributes with a non-nil default.
+      ATTRIBUTE_DEFAULTS = {
+        description: "",
+        status: "open",
+        priority: 2,
+        type: "task",
+        plan: false,
+        ephemeral: false,
+        notes: ""
+      }.freeze
+
       def initialize(attrs = {})
-        @id = attrs[:id]
-        @title = attrs[:title]
-        @description = attrs[:description] || ""
-        @status = attrs[:status] || "open"
-        @priority = attrs[:priority] || 2
-        @type = attrs[:type] || "task"
-        @assignee = attrs[:assignee]
-        @parent_id = attrs[:parent_id]
-        @created_at = attrs[:created_at] || Time.now.utc
-        @updated_at = attrs[:updated_at] || Time.now.utc
-        @closed_at = attrs[:closed_at]
-        @content_hash = attrs[:content_hash]
-        @plan = attrs[:plan] || false
-        @source_plan_id = attrs[:source_plan_id]
-        @ephemeral = attrs[:ephemeral] || false
-        @notes = attrs[:notes] || ""
+        NILABLE_ATTRIBUTES.each { |key| instance_variable_set("@#{key}", attrs[key]) }
+        ATTRIBUTE_DEFAULTS.each { |key, default| instance_variable_set("@#{key}", attrs[key] || default) }
+
+        now = Time.now.utc
+        @created_at = attrs[:created_at] || now
+        @updated_at = attrs[:updated_at] || now
       end
 
       def valid?
@@ -64,7 +68,7 @@ module TrakFlow
       end
 
       def closed?
-        status == "closed" || status == "tombstone"
+        %w[closed tombstone].include?(status)
       end
 
       def in_progress?

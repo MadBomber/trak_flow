@@ -277,5 +277,4 @@ class TaskTest < Minitest::Test
     assert_equal "tf-plan-1", task.source_plan_id
     assert_equal "Created from plan", task.notes
   end
-
 end

@@ -54,9 +54,9 @@ tf init
 
 This creates a `.trak_flow/` directory with:
 
-- `issues.jsonl` - Git-tracked task storage
+- `tasks.jsonl` - Git-tracked task storage
 - `trak_flow.db` - SQLite cache (gitignored)
-- `config.json` - Project configuration
+- `config.yml` - Project configuration
 - `.gitignore` - Ignores the database file
 
 ## Dependencies
@@ -66,12 +66,29 @@ TrakFlow depends on these gems (installed automatically):
 | Gem | Purpose |
 |-----|---------|
 | `thor` | CLI framework |
+| `sequel` | Database toolkit |
 | `sqlite3` | Local database |
 | `oj` | Fast JSON parsing |
+| `anyway_config` | Configuration management |
 | `pastel` | Terminal colors |
-| `tty-table` | Table formatting |
-| `fast_mcp` | MCP server support |
-| `puma` | HTTP server for MCP |
+| `tty-table` / `tty-spinner` | Terminal formatting |
+| `fast-mcp` | MCP server support |
+| `debug_me` | Debug output |
+
+### Optional: MCP HTTP transport
+
+The MCP server's HTTP/SSE transport is opt-in — TrakFlow does not bundle a
+web server. Add the `rackup` gem plus any Rack server that supports
+`rack.hijack` (Puma, Falcon, WEBrick, ...) to your Gemfile:
+
+```ruby
+gem "rackup"
+gem "puma"   # or falcon, webrick, ... — skip if your app already has one
+```
+
+If your application already runs its own Rack server, you don't need any of
+this: mount `TrakFlow::Mcp::Server.new.rack_app` into it instead. The STDIO
+transport (the default) needs nothing extra.
 
 ## Next Steps
 

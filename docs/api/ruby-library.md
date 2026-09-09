@@ -58,7 +58,7 @@ trak = TrakFlow.new(
 ### Configuration from File
 
 ```ruby
-trak = TrakFlow.from_config("/path/to/config.json")
+trak = TrakFlow.from_config("/path/to/config.yml")
 ```
 
 ## Core Classes
@@ -183,7 +183,7 @@ db.dependencies_for(task_id)
 JSONL file storage.
 
 ```ruby
-jsonl = TrakFlow::Storage::Jsonl.new("/path/to/issues.jsonl")
+jsonl = TrakFlow::Storage::Jsonl.new("/path/to/tasks.jsonl")
 
 # Load all tasks
 tasks = jsonl.load_all

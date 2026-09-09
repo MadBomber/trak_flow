@@ -18,12 +18,9 @@ module TrakFlow
       # - Plans are exported (persistent blueprints)
       # - Ephemeral Workflows are NOT exported (temporary only)
       def export(db)
-        entities = []
-
         # Export regular tasks (excluding ephemeral) and include Plans
-        db.list_tasks(include_ephemeral: false, include_plans: true, include_tombstones: true).each do |task|
-          entities << { type: "task", data: task.to_h }
-        end
+        entities = db.list_tasks(include_ephemeral: false, include_plans: true, include_tombstones: true)
+                     .map { |task| { type: "task", data: task.to_h } }
 
         db.all_task_ids.each do |task_id|
           db.find_dependencies(task_id, direction: :outgoing).each do |dep|
@@ -51,38 +48,41 @@ module TrakFlow
         orphan_handling ||= TrakFlow.config.get("import.orphan_handling")
         error_policy ||= TrakFlow.config.get("import.error_policy") || "warn"
 
-        entities = read_entities
-        tasks = []
-        dependencies = []
-        labels = []
-        comments = []
-        import_errors = []
-
-        entities.each do |entity|
-          case entity[:type]
-          when "task"
-            tasks << Models::Task.from_hash(entity[:data])
-          when "dependency"
-            dependencies << Models::Dependency.from_hash(entity[:data])
-          when "label"
-            labels << Models::Label.from_hash(entity[:data])
-          when "comment"
-            comments << Models::Comment.from_hash(entity[:data])
-          end
-        end
-
-        tasks = handle_orphans(tasks, orphan_handling)
+        models = build_import_models(read_entities)
+        tasks = handle_orphans(models[:task], orphan_handling)
 
         db.import_tasks(tasks)
 
-        import_errors += import_entities(db, :add_dependency, dependencies, error_policy)
-        import_errors += import_entities(db, :add_label, labels, error_policy)
-        import_errors += import_entities(db, :add_comment, comments, error_policy)
+        import_errors = import_entities(db, :add_dependency, models[:dependency], error_policy)
+        import_errors += import_entities(db, :add_label, models[:label], error_policy)
+        import_errors += import_entities(db, :add_comment, models[:comment], error_policy)
 
         raise_if_strict_errors(import_errors, error_policy)
       end
 
       private
+
+      IMPORT_MODEL_CLASSES = {
+        "task" => Models::Task,
+        "dependency" => Models::Dependency,
+        "label" => Models::Label,
+        "comment" => Models::Comment
+      }.freeze
+
+      private_constant :IMPORT_MODEL_CLASSES
+
+      # Groups raw JSONL entities into model instances keyed by type;
+      # entities with an unknown type are dropped.
+      def build_import_models(entities)
+        models = { task: [], dependency: [], label: [], comment: [] }
+
+        entities.each do |entity|
+          klass = IMPORT_MODEL_CLASSES[entity[:type]]
+          models[entity[:type].to_sym] << klass.from_hash(entity[:data]) if klass
+        end
+
+        models
+      end
 
       def import_entities(db, method, entities, error_policy)
         errors = []
@@ -174,44 +174,43 @@ module TrakFlow
       def incremental_export(db, changed_ids)
         return export(db) unless File.exist?(path)
 
-        existing = read_entities
-        existing_by_id = {}
+        entities_by_key = index_entities(read_entities)
+        changed_ids.each { |task_id| apply_task_change(db, task_id, entities_by_key) }
 
-        existing.each do |entity|
-          id = entity.dig(:data, :id)
-          existing_by_id["#{entity[:type]}-#{id}"] = entity if id
-        end
-
-        changed_ids.each do |task_id|
-          task = db.find_task(task_id)
-          if task
-            key = "task-#{task_id}"
-            existing_by_id[key] = { type: "task", data: task.to_h }
-
-            db.find_dependencies(task_id, direction: :outgoing).each do |dep|
-              dep_key = "dependency-#{dep.id}"
-              existing_by_id[dep_key] = { type: "dependency", data: dep.to_h }
-            end
-
-            db.find_labels(task_id).each do |label|
-              label_key = "label-#{label.id}"
-              existing_by_id[label_key] = { type: "label", data: label.to_h }
-            end
-
-            db.find_comments(task_id).each do |comment|
-              comment_key = "comment-#{comment.id}"
-              existing_by_id[comment_key] = { type: "comment", data: comment.to_h }
-            end
-          else
-            existing_by_id.delete("task-#{task_id}")
-          end
-        end
-
-        write_entities(existing_by_id.values)
+        write_entities(entities_by_key.values)
         db.mark_clean!
       end
 
       private
+
+      # Indexes entities by "type-id" for incremental merging.
+      def index_entities(entities)
+        entities.each_with_object({}) do |entity, index|
+          id = entity.dig(:data, :id)
+          index["#{entity[:type]}-#{id}"] = entity if id
+        end
+      end
+
+      # Replaces one task's entities in the index — or removes the task's
+      # entry when it no longer exists in the database.
+      def apply_task_change(db, task_id, index)
+        task = db.find_task(task_id)
+        return index.delete("task-#{task_id}") unless task
+
+        index["task-#{task_id}"] = { type: "task", data: task.to_h }
+
+        db.find_dependencies(task_id, direction: :outgoing).each do |dep|
+          index["dependency-#{dep.id}"] = { type: "dependency", data: dep.to_h }
+        end
+
+        db.find_labels(task_id).each do |label|
+          index["label-#{label.id}"] = { type: "label", data: label.to_h }
+        end
+
+        db.find_comments(task_id).each do |comment|
+          index["comment-#{comment.id}"] = { type: "comment", data: comment.to_h }
+        end
+      end
 
       def valid_entity?(data)
         return false unless data.is_a?(Hash)
@@ -237,8 +236,6 @@ module TrakFlow
         return valid if orphans.empty?
 
         case handling
-        when "allow"
-          valid + orphans
         when "skip"
           debug_me "Skipping #{orphans.size} orphaned tasks"
           valid
@@ -251,6 +248,7 @@ module TrakFlow
         when "strict"
           raise ValidationError, "Found #{orphans.size} orphaned tasks with missing parents"
         else
+          # "allow" and any unrecognized handling keep orphans as-is
           valid + orphans
         end
       end

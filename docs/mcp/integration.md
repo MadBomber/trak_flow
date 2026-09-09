@@ -110,7 +110,7 @@ require 'ruby_llm/mcp'
 # Connect via HTTP/SSE
 client = RubyLLM::MCP::Client.new(
   transport_type: :sse,
-  url: "http://localhost:9292/sse"
+  url: "http://localhost:3333/mcp/sse"
 )
 
 # Same API as STDIO
@@ -191,27 +191,30 @@ console.log('Created:', result);
 
 ## HTTP API (Direct)
 
-For applications that can't use MCP directly, start the HTTP server:
+For applications that can't use MCP directly, start the HTTP server
+(requires the optional `rackup` gem plus a Rack server such as Puma in
+the bundle — or mount `TrakFlow::Mcp::Server.new.rack_app` into your
+app's existing Rack server):
 
 ```bash
-tf mcp start --http --port 9292
+tf_mcp --http 3333
 ```
 
 ### Endpoints
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/sse` | GET | SSE connection for MCP messages |
-| `/messages` | POST | Send MCP request |
+| `/mcp/sse` | GET | SSE connection for MCP messages |
+| `/mcp/messages` | POST | Send MCP request |
 
 ### Example with curl
 
 ```bash
 # Initialize session (returns session ID in SSE stream)
-curl -N http://localhost:9292/sse &
+curl -N http://localhost:3333/mcp/sse &
 
 # Send a tool call
-curl -X POST http://localhost:9292/messages \
+curl -X POST http://localhost:3333/mcp/messages \
   -H "Content-Type: application/json" \
   -d '{
     "method": "tools/call",
@@ -232,7 +235,7 @@ require 'trak_flow/mcp'
 # Create server with custom configuration
 server = TrakFlow::Mcp::Server.new(
   db_path: "/custom/path/trak_flow.db",
-  jsonl_path: "/custom/path/issues.jsonl"
+  jsonl_path: "/custom/path/tasks.jsonl"
 )
 
 # STDIO mode

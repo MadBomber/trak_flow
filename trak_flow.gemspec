@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
     end
   end
   spec.bindir        = 'bin'
-  spec.executables   = ['tf', 'tf_mcp']
+  spec.executables   = %w[tf tf_mcp]
   spec.require_paths = ['lib']
 
   spec.add_dependency 'anyway_config', '~> 2.0'
@@ -40,8 +40,12 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'thor', '~> 1.3'
   spec.add_dependency 'tty-spinner', '~> 0.9'
   spec.add_dependency 'tty-table', '~> 0.12'
-  spec.add_dependency 'puma', '~> 6.0'
-  spec.add_dependency 'rackup', '~> 2.0'
+
+  # puma and rackup are deliberately absent: the MCP HTTP transport
+  # lazy-loads them (see TrakFlow::Mcp::Server#require_http_transport_gems)
+  # so consumers that only use the models/storage API or the stdio
+  # transport don't carry a web server. To run the HTTP transport, add
+  # `gem 'puma', '>= 7.2.1'` and `gem 'rackup'` to your Gemfile.
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'minitest', '~> 5.0'
@@ -49,4 +53,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'rubocop', '~> 1.0'
   spec.add_development_dependency 'simplecov', '~> 0.22'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 end

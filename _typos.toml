@@ -1,0 +1,17 @@
+# typos-cli configuration — https://github.com/crate-ci/typos
+
+[default.extend-words]
+# The gem's name is "trak_flow" — "trak" is intentional, not a typo.
+trak = "trak"
+
+[files]
+# Generated artifacts are not spell-checked: mkdocs output, SimpleCov
+# reports, built .gem packages, and the asgard quality gates' own
+# *_output.txt report files.
+extend-exclude = [
+  "site/",
+  "coverage/",
+  "pkg/",
+  "Gemfile.lock",
+  "*_output.txt",
+]

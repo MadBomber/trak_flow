@@ -141,13 +141,13 @@ module TrakFlow
       def find_dependencies(issue_id, direction: :both)
         deps = []
 
-        if direction == :both || direction == :outgoing
+        if %i[both outgoing].include?(direction)
           @db[:dependencies].where(source_id: issue_id).each do |row|
             deps << Models::Dependency.from_hash(row)
           end
         end
 
-        if direction == :both || direction == :incoming
+        if %i[both incoming].include?(direction)
           @db[:dependencies].where(target_id: issue_id).each do |row|
             deps << Models::Dependency.from_hash(row)
           end
@@ -272,7 +272,7 @@ module TrakFlow
       end
 
       def create_child_task(parent_id, attrs)
-        parent = find_task!(parent_id)
+        find_task!(parent_id)
         child_count = @db[:tasks].where(parent_id: parent_id).count
         child_id = IdGenerator.generate_child_id(parent_id, child_count + 1)
 
@@ -373,6 +373,15 @@ module TrakFlow
       private
 
       def setup_schema
+        create_tasks_table
+        migrate_schema_if_needed!
+        create_dependencies_table
+        create_labels_table
+        create_comments_table
+        create_blocked_tasks_table
+      end
+
+      def create_tasks_table
         @db.create_table?(:tasks) do
           String :id, primary_key: true
           String :title, null: false
@@ -400,9 +409,9 @@ module TrakFlow
           index :source_plan_id
           index :ephemeral
         end
+      end
 
-        migrate_schema_if_needed!
-
+      def create_dependencies_table
         @db.create_table?(:dependencies) do
           String :id, primary_key: true
           String :source_id, null: false
@@ -414,7 +423,9 @@ module TrakFlow
           index :target_id
           index :type
         end
+      end
 
+      def create_labels_table
         @db.create_table?(:labels) do
           String :id, primary_key: true
           String :task_id, null: false
@@ -425,7 +436,9 @@ module TrakFlow
           index :name
           unique %i[task_id name]
         end
+      end
 
+      def create_comments_table
         @db.create_table?(:comments) do
           String :id, primary_key: true
           String :task_id, null: false
@@ -436,7 +449,9 @@ module TrakFlow
 
           index :task_id
         end
+      end
 
+      def create_blocked_tasks_table
         @db.create_table?(:blocked_tasks) do
           String :task_id, primary_key: true
 
@@ -498,11 +513,7 @@ module TrakFlow
       def apply_status_filter(dataset, status)
         return dataset unless status
 
-        if status.is_a?(Array)
-          dataset.where(status: status)
-        else
-          dataset.where(status: status)
-        end
+        dataset.where(status: status)
       end
 
       def apply_priority_filter(dataset, filters)
@@ -601,8 +612,8 @@ module TrakFlow
 
         visited << task_id
         blocking_deps = @db[:dependencies]
-          .where(target_id: task_id)
-          .where(type: Models::Dependency::BLOCKING_TYPES)
+                        .where(target_id: task_id)
+                        .where(type: Models::Dependency::BLOCKING_TYPES)
 
         blocking_deps.any? { |dep| blocker_active?(dep, visited) }
       end
@@ -628,10 +639,9 @@ module TrakFlow
           @db.alter_table(:tasks) { add_column :source_plan_id, String } rescue nil
           @db.add_index :tasks, :source_plan_id rescue nil
         end
-        unless columns.include?(:ephemeral)
-          @db.alter_table(:tasks) { add_column :ephemeral, TrueClass, default: false } rescue nil
-          @db.add_index :tasks, :ephemeral rescue nil
-        end
+        return if columns.include?(:ephemeral)
+        @db.alter_table(:tasks) { add_column :ephemeral, TrueClass, default: false } rescue nil
+        @db.add_index :tasks, :ephemeral rescue nil
       end
     end
   end

@@ -18,11 +18,11 @@ module TrakFlow
         puts Oj.dump(data, mode: :compat, indent: 2)
       end
 
-      def output(json_data, &human_block)
+      def output(json_data)
         if json?
           output_json(json_data)
         else
-          human_block.call
+          yield
         end
       end
 

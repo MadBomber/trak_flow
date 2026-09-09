@@ -4,7 +4,6 @@ require "digest"
 require "fileutils"
 require "json"
 require "securerandom"
-require "set"
 require "time"
 
 require "oj"

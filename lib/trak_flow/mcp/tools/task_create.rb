@@ -20,23 +20,23 @@ module TrakFlow
         def call(title:, type: "task", priority: 2, description: nil, assignee: nil, parent_id: nil, labels: [])
           self.class.with_database do |db|
             task = if parent_id
-                db.create_child_task(parent_id, {
-                  title: title,
-                  description: description,
-                  type: type,
-                  priority: priority,
-                  assignee: assignee
-                })
-              else
-                new_task = Models::Task.new(
-                  title: title,
-                  description: description,
-                  type: type,
-                  priority: priority,
-                  assignee: assignee
-                )
-                db.create_task(new_task)
-              end
+                     db.create_child_task(parent_id, {
+                       title: title,
+                       description: description,
+                       type: type,
+                       priority: priority,
+                       assignee: assignee
+                     })
+                   else
+                     new_task = Models::Task.new(
+                       title: title,
+                       description: description,
+                       type: type,
+                       priority: priority,
+                       assignee: assignee
+                     )
+                     db.create_task(new_task)
+                   end
 
             labels.each do |label_name|
               db.add_label(Models::Label.new(task_id: task.id, name: label_name))

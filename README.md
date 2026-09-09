@@ -357,8 +357,21 @@ TrakFlow includes a Model Context Protocol (MCP) server that exposes task manage
 # STDIO transport (for local development and IDE integrations)
 tf_mcp
 
-# HTTP/SSE transport (for remote access and web applications)
-tf_mcp --http --port 3333
+# HTTP/SSE transport (for remote access and web applications).
+# Needs the optional rackup gem plus a Rack server (puma, falcon, ...)
+# in the bundle — TrakFlow uses whichever one it finds, or the one named
+# in config (mcp.handler / TF_MCP__HANDLER).
+tf_mcp --http 3333
+```
+
+Embedding in an app that already runs a Rack server? Skip `tf_mcp --http`
+and mount the transport into the server you have:
+
+```ruby
+# config.ru
+map "/mcp" do
+  run TrakFlow::Mcp::Server.new.rack_app
+end
 ```
 
 ### Available Tools

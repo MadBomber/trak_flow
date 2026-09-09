@@ -49,7 +49,7 @@ class ConfigCommandsTest < Minitest::Test
     xdg_config_exists = File.exist?(File.expand_path("~/.config/trak_flow/trak_flow.yml"))
     if xdg_config_exists
       # XDG config exists, show displays it
-      assert_match(/\.config\/trak_flow/, result.stdout)
+      assert_match(%r{\.config/trak_flow}, result.stdout)
     else
       # No config file anywhere
       assert_match(/No configuration file found/, result.stdout)
@@ -119,7 +119,7 @@ class ConfigCommandsTest < Minitest::Test
     config_file = File.join(@temp_dir, ".trak_flow", "config.yml")
     assert File.exist?(config_file)
 
-    content = YAML.safe_load(File.read(config_file), permitted_classes: [Symbol], symbolize_names: true)
+    content = YAML.safe_load_file(config_file, permitted_classes: [Symbol], symbolize_names: true)
     assert_equal 8080, content[:defaults][:mcp][:port]
   end
 
@@ -129,7 +129,7 @@ class ConfigCommandsTest < Minitest::Test
     run_cli("config", "set", "output.json", "true")
 
     config_file = File.join(@temp_dir, ".trak_flow", "config.yml")
-    content = YAML.safe_load(File.read(config_file), permitted_classes: [Symbol], symbolize_names: true)
+    content = YAML.safe_load_file(config_file, permitted_classes: [Symbol], symbolize_names: true)
     assert_equal true, content[:defaults][:output][:json]
   end
 
@@ -139,7 +139,7 @@ class ConfigCommandsTest < Minitest::Test
     run_cli("config", "set", "output.stealth", "false")
 
     config_file = File.join(@temp_dir, ".trak_flow", "config.yml")
-    content = YAML.safe_load(File.read(config_file), permitted_classes: [Symbol], symbolize_names: true)
+    content = YAML.safe_load_file(config_file, permitted_classes: [Symbol], symbolize_names: true)
     assert_equal false, content[:defaults][:output][:stealth]
   end
 
@@ -149,7 +149,7 @@ class ConfigCommandsTest < Minitest::Test
     run_cli("config", "set", "database.path", "/custom/path/db.sqlite")
 
     config_file = File.join(@temp_dir, ".trak_flow", "config.yml")
-    content = YAML.safe_load(File.read(config_file), permitted_classes: [Symbol], symbolize_names: true)
+    content = YAML.safe_load_file(config_file, permitted_classes: [Symbol], symbolize_names: true)
     assert_equal "/custom/path/db.sqlite", content[:defaults][:database][:path]
   end
 

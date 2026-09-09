@@ -281,7 +281,7 @@ echo "The JSONL file is Git-friendly for version control."
 echo ""
 
 run_cmd "ls -la .trak_flow/"
-run_cmd "head -5 .trak_flow/issues.jsonl"
+run_cmd "head -5 .trak_flow/tasks.jsonl"
 
 pause
 

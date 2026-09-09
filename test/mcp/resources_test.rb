@@ -93,7 +93,7 @@ class MCPResourcesTest < Minitest::Test
     content = Oj.load(resource.content, symbol_keys: true)
 
     assert_equal 2, content.size
-    assert content.all? { |p| p[:plan] == true }
+    assert(content.all? { |p| p[:plan] == true })
   end
 
   # PlanById tests
@@ -129,7 +129,7 @@ class MCPResourcesTest < Minitest::Test
     content = Oj.load(resource.content, symbol_keys: true)
 
     assert_equal 2, content.size
-    assert content.all? { |w| w[:source_plan_id] == plan.id }
+    assert(content.all? { |w| w[:source_plan_id] == plan.id })
   end
 
   # WorkflowById tests
@@ -183,10 +183,10 @@ class MCPResourcesTest < Minitest::Test
     task1 = create_test_task("Task 1")
     task2 = create_test_task("Task 2")
     @db.add_dependency(TrakFlow::Models::Dependency.new(
-      source_id: task1.id,
-      target_id: task2.id,
-      type: "blocks"
-    ))
+                         source_id: task1.id,
+                         target_id: task2.id,
+                         type: "blocks"
+                       ))
 
     resource = TrakFlow::Mcp::Resources::DependencyGraph.new
     content = Oj.load(resource.content, symbol_keys: true)

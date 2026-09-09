@@ -135,9 +135,9 @@ TrakFlow uses a dual-storage approach:
 
 ```
 .trak_flow/
-├── issues.jsonl    # Source of truth (git-tracked)
+├── tasks.jsonl    # Source of truth (git-tracked)
 ├── trak_flow.db    # Fast cache (gitignored)
-└── config.json     # Settings (git-tracked)
+└── config.yml     # Settings (git-tracked)
 ```
 
 ### JSONL Format

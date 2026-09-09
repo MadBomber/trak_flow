@@ -87,30 +87,10 @@ module TrakFlow
         tasks = task_ids.map { |id| @db.find_task(id) }.compact
         tasks = tasks.reject(&:closed?) unless include_closed
 
-        lines = ["digraph dependencies {"]
-        lines << '  rankdir=TB;'
-        lines << '  node [shape=box, style=filled];'
+        lines = ["digraph dependencies {", "  rankdir=TB;", "  node [shape=box, style=filled];", ""]
+        lines.concat(dot_node_lines(tasks))
         lines << ""
-
-        tasks.each do |task|
-          color = node_color(task)
-          label = "#{task.id}\\n#{truncate(task.title, 30)}"
-          lines << "  \"#{task.id}\" [label=\"#{label}\", fillcolor=\"#{color}\"];"
-        end
-
-        lines << ""
-
-        task_set = Set.new(tasks.map(&:id))
-
-        tasks.each do |task|
-          @db.find_dependencies(task.id, direction: :outgoing).each do |dep|
-            next unless task_set.include?(dep.target_id)
-
-            style = edge_style(dep)
-            lines << "  \"#{dep.source_id}\" -> \"#{dep.target_id}\" [#{style}];"
-          end
-        end
-
+        lines.concat(dot_edge_lines(tasks))
         lines << "}"
         lines.join("\n")
       end
@@ -127,7 +107,7 @@ module TrakFlow
         end
 
         # Make background transparent for dark theme compatibility
-        stdout.gsub(/fill="white"/, 'fill="none"')
+        stdout.gsub('fill="white"', 'fill="none"')
       end
 
       # Analyze the graph for potential problems
@@ -144,33 +124,55 @@ module TrakFlow
 
       private
 
-      def build_tree_node(task, direction, remaining_depth, visited)
-        return nil if remaining_depth <= 0 || visited.include?(task.id)
+      def dot_node_lines(tasks)
+        tasks.map do |task|
+          id = task.id
+          label = "#{id}\\n#{truncate(task.title, 30)}"
+          "  \"#{id}\" [label=\"#{label}\", fillcolor=\"#{node_color(task)}\"];"
+        end
+      end
 
-        visited << task.id
+      # Edges are drawn only between tasks that are both in the graph.
+      def dot_edge_lines(tasks)
+        task_set = Set.new(tasks.map(&:id))
+
+        tasks.flat_map do |task|
+          @db.find_dependencies(task.id, direction: :outgoing)
+             .select { |dep| task_set.include?(dep.target_id) }
+             .map { |dep| "  \"#{dep.source_id}\" -> \"#{dep.target_id}\" [#{edge_style(dep)}];" }
+        end
+      end
+
+      def build_tree_node(task, direction, remaining_depth, visited)
+        task_id = task.id
+        return nil if remaining_depth <= 0 || visited.include?(task_id)
+
+        visited << task_id
 
         node = {
-          id: task.id,
+          id: task_id,
           title: task.title,
           status: task.status,
           priority: task.priority,
           children: []
         }
 
-        dep_direction = direction == :blocking ? :incoming : :outgoing
-        deps = @db.find_dependencies(task.id, direction: dep_direction)
-        deps = deps.select(&:blocking?) if direction == :blocking
-
-        deps.each do |dep|
-          related_id = direction == :blocking ? dep.source_id : dep.target_id
-          related_task = @db.find_task(related_id)
-          next unless related_task
-
+        related_tasks(task_id, direction).each do |related_task|
           child_node = build_tree_node(related_task, direction, remaining_depth - 1, visited.dup)
           node[:children] << child_node if child_node
         end
 
         node
+      end
+
+      # Tasks one dependency hop away from task_id. In :blocking direction only
+      # blocking incoming deps count; otherwise all outgoing deps do.
+      def related_tasks(task_id, direction)
+        blocking = direction == :blocking
+        deps = @db.find_dependencies(task_id, direction: blocking ? :incoming : :outgoing)
+        deps = deps.select(&:blocking?) if blocking
+
+        deps.filter_map { |dep| @db.find_task(blocking ? dep.source_id : dep.target_id) }
       end
 
       def collect_related_tasks(start_id, direction, types)
@@ -184,22 +186,22 @@ module TrakFlow
 
           visited << current_id
 
-          deps = @db.find_dependencies(current_id, direction: direction)
-          deps = deps.select { |d| types.include?(d.type) }
-
-          deps.each do |dep|
-            related_id = direction == :incoming ? dep.source_id : dep.target_id
-            next if visited.include?(related_id)
-
-            task = @db.find_task(related_id)
-            if task
-              result << task
-              queue << related_id
-            end
+          unvisited_related_tasks(current_id, direction, types, visited).each do |task|
+            result << task
+            queue << task.id
           end
         end
 
         result
+      end
+
+      def unvisited_related_tasks(current_id, direction, types, visited)
+        @db.find_dependencies(current_id, direction: direction)
+           .select { |d| types.include?(d.type) }
+           .filter_map do |dep|
+             related_id = direction == :incoming ? dep.source_id : dep.target_id
+             @db.find_task(related_id) unless visited.include?(related_id)
+           end
       end
 
       def find_longest_path(task_id, memo)
@@ -234,17 +236,17 @@ module TrakFlow
         bottlenecks = []
 
         @db.list_tasks(status: "open").each do |task|
-          incoming = @db.find_dependencies(task.id, direction: :incoming).count
-          outgoing = @db.find_dependencies(task.id, direction: :outgoing).count
+          id = task.id
+          incoming = @db.find_dependencies(id, direction: :incoming).count
+          outgoing = @db.find_dependencies(id, direction: :outgoing).count
 
-          if incoming >= 3 || outgoing >= 3
-            bottlenecks << {
-              id: task.id,
-              title: task.title,
-              incoming_deps: incoming,
-              outgoing_deps: outgoing
-            }
-          end
+          next unless incoming >= 3 || outgoing >= 3
+          bottlenecks << {
+            id: id,
+            title: task.title,
+            incoming_deps: incoming,
+            outgoing_deps: outgoing
+          }
         end
 
         bottlenecks.sort_by { |b| -(b[:incoming_deps] + b[:outgoing_deps]) }
@@ -254,26 +256,27 @@ module TrakFlow
         status_color = COLORS[:status][task.status.to_sym]
         return status_color if status_color
 
+        priorities = COLORS[:priority]
         priority_colors = {
-          0 => COLORS[:priority][:critical],
-          1 => COLORS[:priority][:high],
-          2 => COLORS[:priority][:medium],
-          3 => COLORS[:priority][:low]
+          0 => priorities[:critical],
+          1 => priorities[:high],
+          2 => priorities[:medium],
+          3 => priorities[:low]
         }
-        priority_colors[task.priority] || COLORS[:priority][:backlog]
+        priority_colors[task.priority] || priorities[:backlog]
       end
 
       def edge_style(dep)
-        type_key = dep.type.tr("-", "_").to_sym
-        color = COLORS[:edge][type_key]
+        type = dep.type
+        color = COLORS[:edge][type.tr("-", "_").to_sym]
         return "" unless color
 
-        style = case dep.type
+        style = case type
                 when "blocks" then "bold"
-                when "parent-child", "related", "discovered-from" then "dashed"
+                when "parent-child" then "dashed"
+                when "related", "discovered-from" then "dotted"
                 else "solid"
                 end
-        style = "dotted" if %w[related discovered-from].include?(dep.type)
 
         %(color="#{color}", style=#{style})
       end

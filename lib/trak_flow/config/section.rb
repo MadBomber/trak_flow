@@ -16,14 +16,12 @@ module TrakFlow
       end
     end
 
-    def method_missing(method, *args, &block)
+    def method_missing(method, *args, &)
       key = method.to_s
       if key.end_with?('=')
         @data[key.chomp('=').to_sym] = args.first
       elsif @data.key?(method)
         @data[method]
-      else
-        nil
       end
     end
 
@@ -55,8 +53,8 @@ module TrakFlow
       @data.keys
     end
 
-    def each(&block)
-      @data.each(&block)
+    def each(&)
+      @data.each(&)
     end
 
     private

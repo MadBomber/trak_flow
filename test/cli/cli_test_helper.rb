@@ -17,8 +17,8 @@ module CLITestHelper
   end
 
   # Run CLI command expecting JSON output
-  def run_cli_json(*args)
-    result = run_cli(*args, "-j")
+  def run_cli_json(*)
+    result = run_cli(*, "-j")
     Oj.load(result.stdout, symbol_keys: false)
   end
 
@@ -80,7 +80,7 @@ module CLITestHelper
     end
 
     def success?
-      @exit_status == 0
+      @exit_status.zero?
     end
 
     def output

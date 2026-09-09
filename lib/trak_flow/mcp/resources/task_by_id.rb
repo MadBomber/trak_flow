@@ -12,9 +12,10 @@ module TrakFlow
         def content
           self.class.with_database do |db|
             task = db.find_task!(params[:id])
-            labels = db.find_labels(task.id)
-            deps = db.find_dependencies(task.id)
-            comments = db.find_comments(task.id)
+            task_id = task.id
+            labels = db.find_labels(task_id)
+            deps = db.find_dependencies(task_id)
+            comments = db.find_comments(task_id)
 
             result = {
               task: task.to_h,

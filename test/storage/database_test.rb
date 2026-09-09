@@ -218,7 +218,7 @@ class DatabaseTest < Minitest::Test
 
     deps = @db.find_dependencies(child.id, direction: :incoming)
 
-    assert deps.any? { |d| d.type == "parent-child" }
+    assert(deps.any? { |d| d.type == "parent-child" })
   end
 
   # Stale task operations
